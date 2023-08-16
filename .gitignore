@@ -1,0 +1,54 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development settings
+*.env
+*.sqlite3
+
+# Logs and databases
+*.log
+*.db
+
+# Temporary files
+*.swp
+*.swo
+*.~
+*.DS_Store
+
+# Static files
+/staticfiles/
+
+# Media files
+/media/
+
+# Virtual environment
+venv/
+.env/
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Compiled Python files
+*.pyc
+
+# Dependency directories
+env/
+bin/
+lib/
+include/
+pyvenv.cfg
+*.egg-info/
+
+# Ignore .env file if it contains sensitive information
+.env
+.env.*
+
+# Ignore local database
+db.sqlite3
+
+# Ignore Docker related files if used
+docker-compose.yml
+Dockerfile
