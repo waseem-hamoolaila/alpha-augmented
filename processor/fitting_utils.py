@@ -22,7 +22,7 @@ class Box:
     The main container, that will hold the Packages.
     """
 
-    test = True
+    test = False
     test_matrix = [
         [0, 0, 0],
         [0, 0, 0],
@@ -59,16 +59,18 @@ class Box:
         if row_index >= self.rows or col_index >= self.cols:
             return False
 
+
         for package_row in range(package.rows):
             for package_col in range(package.cols):
-                if col_index + package_col >= self.cols:
-                    # If we reached the far right of the box... we will reject it to go up one step
+                
+                if (col_index + package_col >= self.cols) or (col_index - package_col < 0):
+                    # reached the edges
                     return False
 
                 try:
                     if self.rtl:
                         box_cell = self.matrix[row_index - package_row][col_index - package_col]
-                        package_cell = package.structure[package_row][package_col]
+                        package_cell = package.structure[package_row][package.cols - package_col - 1]
                     else:
                         box_cell = self.matrix[row_index - package_row][col_index + package_col]
                         package_cell = package.structure[package_row][package_col]
@@ -96,8 +98,12 @@ class Box:
         for package_row in range(package.rows):
             for package_col in range(package.cols):
                 try:
-                    if package.structure[package_row][package_col] == 1:
-                        self.matrix[row_index - package_row][col_index + package_col] = 1
+                    if self.rtl:
+                        if package.structure[package_row][package_col] == 1:
+                            self.matrix[row_index - package_row][col_index - package_col] = 1
+                    else:
+                        if package.structure[package_row][package_col] == 1:
+                            self.matrix[row_index - package_row][col_index + package_col] = 1
                 except IndexError:
                     return False
         return True
@@ -115,7 +121,10 @@ class Box:
 
         for box_row in range(self.rows):
             for box_col in range(self.cols):
-                current_col_index = box_col
+                if self.rtl:
+                    current_col_index = self.cols - box_col - 1
+                else:
+                    current_col_index = box_col
                 current_row_index = self.rows - box_row - 1
 
                 if self._can_fit(package=package, row_index=current_row_index, col_index=current_col_index):
@@ -156,9 +165,11 @@ def main():
     box = Box(5, 10, rtl=True)
 
     # box.show()
-    s2 = Package([[1, 1, 1]])
+    s2 = Package([[1, 1, 1], [1, 1, 1]])
     box.scan_and_place(s2)
     box.console_print()
+
+    # print(box._can_fit(s2, 2, 2))
 
 
 if __name__ == "__main__":
