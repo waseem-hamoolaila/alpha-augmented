@@ -59,13 +59,11 @@ class Box:
         if row_index >= self.rows or col_index >= self.cols:
             return False
 
-
         for package_row in range(package.rows):
             for package_col in range(package.cols):
-                
-                if col_index + package_col >= self.cols:
+                if col_index + package_col >= self.cols and not self.rtl:
                     return False
-                
+
                 if col_index - package_col < 0 and self.rtl:
                     return False
 
@@ -164,10 +162,10 @@ class Box:
 
 
 def main():
-    box = Box(5, 10, rtl=False)
+    box = Box(5, 10, rtl=True)
 
     # box.show()
-    s2 = Package([[1, 1, 1]])
+    s2 = Package([[1, 1, 1, 1, 1], [1, 1, 0, 1, 1]])
     box.scan_and_place(s2)
     box.console_print()
 
