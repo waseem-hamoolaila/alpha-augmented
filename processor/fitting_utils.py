@@ -116,7 +116,7 @@ class Box:
 
         return False  # the Package cannot be fitted.
 
-    def bulk_insertion(self, list_of_Packages):
+    def bulk_insertion(self, list_of_packages):
         """
         Insert bulk of Packages at once to the box
 
@@ -127,8 +127,8 @@ class Box:
             - bool: True is inserted successfully, False otherwise.
         """
 
-        for Package in list_of_Packages:
-            result = self.scan_and_fit(Package)
+        for package in list_of_packages:
+            result = self.scan_and_fit(package)
             if not result:
                 return False
 
