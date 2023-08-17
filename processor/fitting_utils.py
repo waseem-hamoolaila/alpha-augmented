@@ -61,9 +61,12 @@ class Box:
                     # If we reached the far right of the box... we will reject it to go up one step
                     return False
 
-                box_cell = self.matrix[row_index - Package_row][col_index + Package_col]
-                package_cell = Package.structure[Package_row][Package_col]
-                if box_cell == 1 and package_cell == 1:
+                try:
+                    box_cell = self.matrix[row_index - Package_row][col_index + Package_col]
+                    package_cell = Package.structure[Package_row][Package_col]
+                    if box_cell == 1 and package_cell == 1:
+                        return False
+                except IndexError:
                     return False
 
         return True
@@ -82,9 +85,11 @@ class Box:
         """
         for Package_row in range(Package.rows):
             for Package_col in range(Package.cols):
-                if Package.structure[Package_row][Package_col] == 1:
-                    self.matrix[row_index - Package_row][col_index + Package_col] = 1
-
+                try:
+                    if Package.structure[Package_row][Package_col] == 1:
+                        self.matrix[row_index - Package_row][col_index + Package_col] = 1
+                except IndexError:
+                    return False
         return True
 
     def scan_and_place(self, Package):
