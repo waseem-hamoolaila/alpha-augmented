@@ -19,7 +19,7 @@ class Package:
 
 class Box:
     """
-    The main container, that will hold the Packages
+    The main container, that will hold the Packages.
     """
 
     def __init__(self, rows, cols):
@@ -62,8 +62,8 @@ class Box:
                     return False
 
                 box_cell = self.matrix[row_index - Package_row][col_index + Package_col]
-                shape_cell = Package.structure[Package_row][Package_col]
-                if box_cell == 1 and shape_cell == 1:
+                package_cell = Package.structure[Package_row][Package_col]
+                if box_cell == 1 and package_cell == 1:
                     return False
 
         return True
@@ -74,8 +74,8 @@ class Box:
 
         Args:
             - Package (Package): the Package that passed the test and can be fitted.
-            - y_coordinate (int): row index where we will start fitting.
-            - x_coordinate (int): col index where we will start fitting.
+            - row_index (int): row index where we will start fitting.
+            - col_index (int): col index where we will start fitting.
 
         Returns:
             - bool: fitted successfully, and now the Package is occupying space in the box, False otherwise.
@@ -87,7 +87,7 @@ class Box:
 
         return True
 
-    def scan_and_fit(self, Package):
+    def scan_and_place(self, Package):
         """
         Try to fit an Package into the box.
 
@@ -129,7 +129,7 @@ class Box:
 
         return True
 
-    def show(self):
+    def console_print(self):
         """
         Used to print the current state of the box in the consol.
         """
@@ -138,7 +138,7 @@ class Box:
 
 
 def main():
-    box = Box(5, 5)
+    box = Box(5, 10)
 
     # box.show()
 
@@ -149,12 +149,12 @@ def main():
 
     # print(box.can_fit(s2, 0, 2))
 
-    box.scan_and_fit(s)
-    box.scan_and_fit(s3)
-    box.scan_and_fit(s2)
+    box.scan_and_place(s)
+    box.scan_and_place(s3)
+    # box.scan_and_fit(s2)
     # box.scan_and_fit(s3)
     # box.scan_and_fit(s4)  # should be fitted in the last two boxes
-    box.show()
+    box.console_print()
 
 
 if __name__ == "__main__":
