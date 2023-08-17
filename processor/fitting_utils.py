@@ -63,8 +63,10 @@ class Box:
         for package_row in range(package.rows):
             for package_col in range(package.cols):
                 
-                if (col_index + package_col >= self.cols) or (col_index - package_col < 0):
-                    # reached the edges
+                if col_index + package_col >= self.cols:
+                    return False
+                
+                if col_index - package_col < 0 and self.rtl:
                     return False
 
                 try:
@@ -162,10 +164,10 @@ class Box:
 
 
 def main():
-    box = Box(5, 10, rtl=True)
+    box = Box(5, 10, rtl=False)
 
     # box.show()
-    s2 = Package([[1, 1, 1], [1, 1, 1]])
+    s2 = Package([[1, 1, 1]])
     box.scan_and_place(s2)
     box.console_print()
 
