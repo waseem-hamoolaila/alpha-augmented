@@ -8,8 +8,8 @@ class Package:
         Initial the Package
 
         Args:
-        - representation (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
-
+            - structure (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
+            - color (char -hexa-): Optional if you need to color the package.
         """
         self.structure = structure
         self.rows = len(structure)
@@ -45,8 +45,7 @@ class Box:
 
 
         Returns:
-            - True: in case the Package will be fit starting from the given coordinates
-            - False: otherwise
+            - bool: True in case the Package will be fit starting from the given coordinates, False otherwise.
         """
 
         if row_index >= self.rows or col_index >= self.cols:
@@ -79,8 +78,7 @@ class Box:
             - x_coordinate (int): col index where we will start fitting.
 
         Returns:
-            - True: fitted successfully, and now the Package is occupying space in the box.
-            - False: otherwise.
+            - bool: fitted successfully, and now the Package is occupying space in the box, False otherwise.
         """
         for Package_row in range(Package.rows):
             for Package_col in range(Package.cols):
@@ -97,8 +95,7 @@ class Box:
             - Package (Package): the Package that I want to fit in to the box
 
         Returns:
-            - True: in case the Package fitted successfully
-            - False: otherwise
+            - bool: True in case the Package fitted successfully, False otherwise
         """
 
         for box_row in range(self.rows):
@@ -122,8 +119,7 @@ class Box:
             - list_of_Packages (Package): list of Packages that will be inserted (ordered)
 
         Returns:
-            - True: inserted successfully.
-            - False: otherwise
+            - bool: True is inserted successfully, False otherwise.
         """
 
         for Package in list_of_Packages:
