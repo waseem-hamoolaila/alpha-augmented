@@ -21,12 +21,6 @@ class Box:
     The main container, that will hold the items
     """
 
-    dummy = False  # to populate the main matrix manually... this will give me more flexibility in testing
-    test_matrix = [
-        [1, 2, 3, 4, 5],
-        [6, 7, 8, 9, 10],
-    ]
-
     def __init__(self, rows, cols):
         """
         Construct the main Box with initial values.
@@ -62,6 +56,11 @@ class Box:
                 # Here I need to see if the main matrix along the rows / cols of the item is available
                 # since we are working our way from the bottom up... the box cell direction will be up
                 # for that the operation is the row_index - the item row
+
+                if col_index + item_col >= self.cols:
+                    # If we reached the far right of the box... we will reject it to go up one step
+                    return False
+
                 box_cell = self.matrix[row_index - item_row][col_index + item_col]
                 shape_cell = item.representation[item_row][item_col]
                 if box_cell == 1 and shape_cell == 1:
@@ -109,8 +108,27 @@ class Box:
         """
         for item_row in range(item.rows):
             for item_col in range(item.cols):
-                if item.represent[item_row][item_col] == 1:
+                if item.representation[item_row][item_col] == 1:
                     self.matrix[y_coordinate - item_row][x_coordinate + item_col] = 1
+
+        return True
+
+    def bulk_insertion(self, list_of_items):
+        """
+        Insert bulk of items at once to the box
+
+        Args:
+            - list_of_items (Item): list of items that will be inserted (ordered)
+
+        Returns:
+            - True: inserted successfully.
+            - False: otherwise
+        """
+
+        for item in list_of_items:
+            result = self.scan_and_fit(item)
+            if not result:
+                return False
 
         return True
 
@@ -123,14 +141,27 @@ class Box:
 
 
 def main():
-    box = Box(2, 5)
+    box = Box(5, 5)
 
     # box.show()
 
     s = Item([[1, 1, 1], [1, 1, 1]])
     s2 = Item([[1, 1, 1]])
+    s3 = Item([[1, 1], [1, 1]])
+    s4 = Item([[1, 1]])
 
     # print(box.can_fit(s2, 0, 2))
+
+    box.scan_and_fit(s)
+    box.scan_and_fit(s3)
+    box.scan_and_fit(s2)
+    box.scan_and_fit(s2)
+    box.scan_and_fit(s2)
+    box.scan_and_fit(s3)
+    box.scan_and_fit(s2)  # should not be added
+    box.scan_and_fit(s3)  # should not be added
+    box.scan_and_fit(s4)  # should be fitted in the last two boxes
+    box.show()
 
 
 if __name__ == "__main__":
