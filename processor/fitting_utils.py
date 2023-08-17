@@ -22,7 +22,14 @@ class Box:
     The main container, that will hold the Packages.
     """
 
-    def __init__(self, rows, cols):
+    test = True
+    test_matrix = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ]
+
+    def __init__(self, rows, cols, rtl=False):
         """
         Construct the main Box with initial values.
 
@@ -32,9 +39,10 @@ class Box:
         """
         self.rows = rows
         self.cols = cols
-        self.matrix = [[0] * cols for _ in range(rows)]
+        self.matrix = [[0] * cols for _ in range(rows)] if not self.test else self.test_matrix
+        self.rtl = rtl
 
-    def _can_fit(self, Package, row_index, col_index):
+    def _can_fit(self, package, row_index, col_index):
         """
         Check if I can place a specific Package in the a given coordinate.
 
@@ -51,27 +59,29 @@ class Box:
         if row_index >= self.rows or col_index >= self.cols:
             return False
 
-        for Package_row in range(Package.rows):
-            for Package_col in range(Package.cols):
-                # Here I need to see if the main matrix along the rows / cols of the Package is available
-                # since we are working our way from the bottom up... the box cell direction will be up
-                # for that the operation is the row_index - the Package row
-
-                if col_index + Package_col >= self.cols:
+        for package_row in range(package.rows):
+            for package_col in range(package.cols):
+                if col_index + package_col >= self.cols:
                     # If we reached the far right of the box... we will reject it to go up one step
                     return False
 
                 try:
-                    box_cell = self.matrix[row_index - Package_row][col_index + Package_col]
-                    package_cell = Package.structure[Package_row][Package_col]
+                    if self.rtl:
+                        box_cell = self.matrix[row_index - package_row][col_index - package_col]
+                        package_cell = package.structure[package_row][package_col]
+                    else:
+                        box_cell = self.matrix[row_index - package_row][col_index + package_col]
+                        package_cell = package.structure[package_row][package_col]
+
                     if box_cell == 1 and package_cell == 1:
                         return False
+
                 except IndexError:
                     return False
 
         return True
 
-    def _fit_Package_into_the_box(self, Package, row_index, col_index):
+    def _fit_Package_into_the_box(self, package, row_index, col_index):
         """
         Actually fit the Package into the box
 
@@ -83,16 +93,16 @@ class Box:
         Returns:
             - bool: fitted successfully, and now the Package is occupying space in the box, False otherwise.
         """
-        for Package_row in range(Package.rows):
-            for Package_col in range(Package.cols):
+        for package_row in range(package.rows):
+            for package_col in range(package.cols):
                 try:
-                    if Package.structure[Package_row][Package_col] == 1:
-                        self.matrix[row_index - Package_row][col_index + Package_col] = 1
+                    if package.structure[package_row][package_col] == 1:
+                        self.matrix[row_index - package_row][col_index + package_col] = 1
                 except IndexError:
                     return False
         return True
 
-    def scan_and_place(self, Package):
+    def scan_and_place(self, package):
         """
         Try to fit an Package into the box.
 
@@ -108,9 +118,9 @@ class Box:
                 current_col_index = box_col
                 current_row_index = self.rows - box_row - 1
 
-                if self._can_fit(Package=Package, row_index=current_row_index, col_index=current_col_index):
+                if self._can_fit(package=package, row_index=current_row_index, col_index=current_col_index):
                     self._fit_Package_into_the_box(
-                        Package=Package, row_index=current_row_index, col_index=current_col_index
+                        package=package, row_index=current_row_index, col_index=current_col_index
                     )
                     return True
 
@@ -143,22 +153,11 @@ class Box:
 
 
 def main():
-    box = Box(5, 10)
+    box = Box(5, 10, rtl=True)
 
     # box.show()
-
-    s = Package([[1, 1, 1], [1, 1, 1]])
     s2 = Package([[1, 1, 1]])
-    s3 = Package([[1, 1], [1, 1]])
-    s4 = Package([[1, 1]])
-
-    # print(box.can_fit(s2, 0, 2))
-
-    box.scan_and_place(s)
-    box.scan_and_place(s3)
-    # box.scan_and_fit(s2)
-    # box.scan_and_fit(s3)
-    # box.scan_and_fit(s4)  # should be fitted in the last two boxes
+    box.scan_and_place(s2)
     box.console_print()
 
 
