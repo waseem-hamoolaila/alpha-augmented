@@ -21,13 +21,10 @@ class Box:
     The main container, that will hold the items
     """
 
-    test = True  # to populate the main matrix manually... this will give me more flexibility in testing
+    dummy = False  # to populate the main matrix manually... this will give me more flexibility in testing
     test_matrix = [
-        [1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 0],
+        [1, 2, 3, 4, 5],
+        [6, 7, 8, 9, 10],
     ]
 
     def __init__(self, rows, cols):
@@ -35,12 +32,12 @@ class Box:
         Construct the main Box with initial values.
 
         Args:
-            - rows: number of rows in the box
-            - cols: number of cols in the box
+            - rows (int): number of rows in the box
+            - cols (int): number of cols in the box
         """
         self.rows = rows
         self.cols = cols
-        self.matrix = [[0] * cols for _ in range(rows)] if not self.test else self.test_matrix
+        self.matrix = [[0] * cols for _ in range(rows)] if not self.dummy else self.test_matrix
 
     def can_fit(self, item, row_index, col_index):
         """
@@ -50,6 +47,11 @@ class Box:
             - item (Item): The item that I want to place into the box.
             - row_index (int): row index where I want to start placing.
             - col_index (int): col index where I want to start placing.
+
+
+        Returns:
+            - True: in case the item will be fit starting from the given coordinates
+            - False: otherwise
         """
 
         if row_index >= self.rows or col_index >= self.cols:
@@ -67,6 +69,51 @@ class Box:
 
         return True
 
+    def scan_and_fit(self, item):
+        """
+        Try to fit an item into the box.
+
+        Args:
+            - item (Item): the item that I want to fit in to the box
+
+        Returns:
+            - True: in case the item fitted successfully
+            - False: otherwise
+        """
+
+        for box_row in range(self.rows):
+            for box_col in range(self.cols):
+                current_x_coordinate = box_col
+                current_y_coordinate = self.rows - box_row - 1
+
+                if self.can_fit(item=item, row_index=current_y_coordinate, col_index=current_x_coordinate):
+                    self.fit_item_into_the_box(
+                        item=item, y_coordinate=current_y_coordinate, x_coordinate=current_x_coordinate
+                    )
+                    return True
+
+        return False  # the item cannot be fitted.
+
+    def fit_item_into_the_box(self, item, y_coordinate, x_coordinate):
+        """
+        Actually fit the item into the box
+
+        Args:
+            - item (Item): the item that passed the test and can be fitted.
+            - y_coordinate (int): row index where we will start fitting.
+            - x_coordinate (int): col index where we will start fitting.
+
+        Returns:
+            - True: fitted successfully, and now the item is occupying space in the box.
+            - False: otherwise.
+        """
+        for item_row in range(item.rows):
+            for item_col in range(item.cols):
+                if item.represent[item_row][item_col] == 1:
+                    self.matrix[y_coordinate - item_row][x_coordinate + item_col] = 1
+
+        return True
+
     def show(self):
         """
         Used to print the current state of the box in the consol.
@@ -76,14 +123,14 @@ class Box:
 
 
 def main():
-    box = Box(5, 5)
+    box = Box(2, 5)
 
     # box.show()
 
     s = Item([[1, 1, 1], [1, 1, 1]])
     s2 = Item([[1, 1, 1]])
 
-    print(box.can_fit(s2, 0, 2))
+    # print(box.can_fit(s2, 0, 2))
 
 
 if __name__ == "__main__":
