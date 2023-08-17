@@ -1,24 +1,25 @@
-class Item:
+class Package:
     """
     The main block that will represent certain shapes
     """
 
-    def __init__(self, representation):
+    def __init__(self, structure, color=None):
         """
-        Initial the item
+        Initial the Package
 
         Args:
-        - representation (list): The desired shape for the item Ex: [[1, 1], [1, 0]]
+        - representation (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
 
         """
-        self.representation = representation
-        self.rows = len(representation)
-        self.cols = len(representation[0])
+        self.structure = structure
+        self.rows = len(structure)
+        self.cols = len(structure[0])
+        self.color = color
 
 
 class Box:
     """
-    The main container, that will hold the items
+    The main container, that will hold the Packages
     """
 
     def __init__(self, rows, cols):
@@ -31,102 +32,102 @@ class Box:
         """
         self.rows = rows
         self.cols = cols
-        self.matrix = [[0] * cols for _ in range(rows)] if not self.dummy else self.test_matrix
+        self.matrix = [[0] * cols for _ in range(rows)]
 
-    def can_fit(self, item, row_index, col_index):
+    def _can_fit(self, Package, row_index, col_index):
         """
-        Check if I can place a specific Item in the a given coordinate.
+        Check if I can place a specific Package in the a given coordinate.
 
         Args:
-            - item (Item): The item that I want to place into the box.
+            - Package (Package): The Package that I want to place into the box.
             - row_index (int): row index where I want to start placing.
             - col_index (int): col index where I want to start placing.
 
 
         Returns:
-            - True: in case the item will be fit starting from the given coordinates
+            - True: in case the Package will be fit starting from the given coordinates
             - False: otherwise
         """
 
         if row_index >= self.rows or col_index >= self.cols:
             return False
 
-        for item_row in range(item.rows):
-            for item_col in range(item.cols):
-                # Here I need to see if the main matrix along the rows / cols of the item is available
+        for Package_row in range(Package.rows):
+            for Package_col in range(Package.cols):
+                # Here I need to see if the main matrix along the rows / cols of the Package is available
                 # since we are working our way from the bottom up... the box cell direction will be up
-                # for that the operation is the row_index - the item row
+                # for that the operation is the row_index - the Package row
 
-                if col_index + item_col >= self.cols:
+                if col_index + Package_col >= self.cols:
                     # If we reached the far right of the box... we will reject it to go up one step
                     return False
 
-                box_cell = self.matrix[row_index - item_row][col_index + item_col]
-                shape_cell = item.representation[item_row][item_col]
+                box_cell = self.matrix[row_index - Package_row][col_index + Package_col]
+                shape_cell = Package.structure[Package_row][Package_col]
                 if box_cell == 1 and shape_cell == 1:
                     return False
 
         return True
 
-    def scan_and_fit(self, item):
+    def _fit_Package_into_the_box(self, Package, row_index, col_index):
         """
-        Try to fit an item into the box.
+        Actually fit the Package into the box
 
         Args:
-            - item (Item): the item that I want to fit in to the box
+            - Package (Package): the Package that passed the test and can be fitted.
+            - y_coordinate (int): row index where we will start fitting.
+            - x_coordinate (int): col index where we will start fitting.
 
         Returns:
-            - True: in case the item fitted successfully
+            - True: fitted successfully, and now the Package is occupying space in the box.
+            - False: otherwise.
+        """
+        for Package_row in range(Package.rows):
+            for Package_col in range(Package.cols):
+                if Package.structure[Package_row][Package_col] == 1:
+                    self.matrix[row_index - Package_row][col_index + Package_col] = 1
+
+        return True
+
+    def scan_and_fit(self, Package):
+        """
+        Try to fit an Package into the box.
+
+        Args:
+            - Package (Package): the Package that I want to fit in to the box
+
+        Returns:
+            - True: in case the Package fitted successfully
             - False: otherwise
         """
 
         for box_row in range(self.rows):
             for box_col in range(self.cols):
-                current_x_coordinate = box_col
-                current_y_coordinate = self.rows - box_row - 1
+                current_col_index = box_col
+                current_row_index = self.rows - box_row - 1
 
-                if self.can_fit(item=item, row_index=current_y_coordinate, col_index=current_x_coordinate):
-                    self.fit_item_into_the_box(
-                        item=item, y_coordinate=current_y_coordinate, x_coordinate=current_x_coordinate
+                if self._can_fit(Package=Package, row_index=current_row_index, col_index=current_col_index):
+                    self._fit_Package_into_the_box(
+                        Package=Package, row_index=current_row_index, col_index=current_col_index
                     )
                     return True
 
-        return False  # the item cannot be fitted.
+        return False  # the Package cannot be fitted.
 
-    def fit_item_into_the_box(self, item, y_coordinate, x_coordinate):
+    def bulk_insertion(self, list_of_Packages):
         """
-        Actually fit the item into the box
+        Insert bulk of Packages at once to the box
 
         Args:
-            - item (Item): the item that passed the test and can be fitted.
-            - y_coordinate (int): row index where we will start fitting.
-            - x_coordinate (int): col index where we will start fitting.
-
-        Returns:
-            - True: fitted successfully, and now the item is occupying space in the box.
-            - False: otherwise.
-        """
-        for item_row in range(item.rows):
-            for item_col in range(item.cols):
-                if item.representation[item_row][item_col] == 1:
-                    self.matrix[y_coordinate - item_row][x_coordinate + item_col] = 1
-
-        return True
-
-    def bulk_insertion(self, list_of_items):
-        """
-        Insert bulk of items at once to the box
-
-        Args:
-            - list_of_items (Item): list of items that will be inserted (ordered)
+            - list_of_Packages (Package): list of Packages that will be inserted (ordered)
 
         Returns:
             - True: inserted successfully.
             - False: otherwise
         """
 
-        for item in list_of_items:
-            result = self.scan_and_fit(item)
+        for Package in list_of_Packages:
+            result = self.scan_and_fit(Package)
             if not result:
                 return False
 
@@ -145,22 +146,18 @@ def main():
 
     # box.show()
 
-    s = Item([[1, 1, 1], [1, 1, 1]])
-    s2 = Item([[1, 1, 1]])
-    s3 = Item([[1, 1], [1, 1]])
-    s4 = Item([[1, 1]])
+    s = Package([[1, 1, 1], [1, 1, 1]])
+    s2 = Package([[1, 1, 1]])
+    s3 = Package([[1, 1], [1, 1]])
+    s4 = Package([[1, 1]])
 
     # print(box.can_fit(s2, 0, 2))
 
     box.scan_and_fit(s)
     box.scan_and_fit(s3)
     box.scan_and_fit(s2)
-    box.scan_and_fit(s2)
-    box.scan_and_fit(s2)
-    box.scan_and_fit(s3)
-    box.scan_and_fit(s2)  # should not be added
-    box.scan_and_fit(s3)  # should not be added
-    box.scan_and_fit(s4)  # should be fitted in the last two boxes
+    # box.scan_and_fit(s3)
+    # box.scan_and_fit(s4)  # should be fitted in the last two boxes
     box.show()
 
 
