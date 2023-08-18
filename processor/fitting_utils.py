@@ -9,7 +9,7 @@ class Package:
 
         Args:
             - structure (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
-            - color (char -hexa-): Optional if you need to color the package.
+            - color (char): Optional if you need to color the package.
         """
 
         self._validate_structure(structure)
@@ -20,13 +20,35 @@ class Package:
         self.color = color
 
     def _validate_structure(self, structure):
-        structure_type_message = "Package structure must be a nested list."
+        structure_type_message = "%s is not a valid structure, it should be two dimensional list" % structure
 
         if not isinstance(structure, list):
             raise ValueError(structure_type_message)
 
         if not any(isinstance(row, list) for row in structure):
             raise ValueError(structure_type_message)
+
+    def rotate(self):
+        """
+        Rotate the package 45 degree.
+        """
+        rotated_structure = []
+        for col in range(self.cols):
+            rotated_row = []
+            for row in range(self.rows):
+                rotated_row = [self.structure[row][col]] + rotated_row
+
+            rotated_structure.append(rotated_row)
+
+        self.rows, self.cols = self.cols, self.rows  # switch cols and rows
+        self.structure = rotated_structure
+
+    def console_print(self):
+        """
+        String representation of the current box.
+        """
+        for row in self.structure:
+            print(row)
 
 
 class Box:
@@ -181,21 +203,27 @@ class Box:
 
 
 def main():
-    box = Box(5, 6, rtl=True, vertical=True)
+    box = Box(5, 6, rtl=False, vertical=True)
 
     # box.show()
-    s2 = Package([[1, 0, 1, 1, 1], [1, 1, 0, 1, 1]])
+    s2 = Package([[1, 0, 0], [0, 1, 0]])
     s3 = Package([[1]])
     s3 = Package([[1], [1]])
     box.place(s2)
-    box.place(s3)
-    box.place(s3)
-    box.place(s3)
-    box.place(s3)
-    box.place(s3)
-    box.console_print()
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
+    # box.console_print()
 
     # print(box._can_fit(s2, 2, 2))
+
+    s2.console_print()
+
+    print("====")
+    s2.rotate()
+    s2.console_print()
 
 
 if __name__ == "__main__":
