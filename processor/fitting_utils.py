@@ -3,14 +3,14 @@ class Package:
     The main block that will represent certain shapes
     """
 
-    def __init__(self, structure, color=None, bottom_up=False):
+    def __init__(self, structure, color=None, first_is_bottom=False):
         """
         Initial the Package
 
         Args:
             - structure (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
             - color (char): Optional if you need to color the package.
-            - bottom_up (bool): Optional if we want to consider the structure bottom up: the first passed row is the bottom,
+            - first_is_bottom (bool): Optional if we want to consider the structure bottom up: the first passed row is the bottom,
                                 by default it is up-bottom, the first row passed will be the bottom one in the package representation.
         """
 
@@ -20,7 +20,7 @@ class Package:
         self.rows = len(structure)
         self.cols = len(structure[0])
         self.color = color
-        self.bottom_up = bottom_up
+        self.first_is_bottom = first_is_bottom
 
     def _validate_structure(self, structure):
         structure_type_message = "%s is not a valid structure, it should be two dimensional list" % structure
@@ -37,9 +37,9 @@ class Package:
         Used to flip the structure... in case we want to consider the first
         array as the bottom or the top
         """
-        if self.bottom_up:
-            return [self.structure[row] for row in range(self.rows - 1, -1, -1)]
-        return self.structure
+        if self.first_is_bottom:
+            return self.structure
+        return [self.structure[row] for row in range(self.rows - 1, -1, -1)]
 
     def rotate(self):
         """
@@ -212,7 +212,7 @@ def main():
     box = Box(5, 6, rtl=False, vertical=True)
 
     # box.show()
-    s2 = Package([[1, 0, 0], [0, 1, 0]], bottom_up=True)
+    s2 = Package([[1, 0, 0], [0, 1, 0]], first_is_bottom=False)
     s3 = Package([[1]])
     s3 = Package([[1], [1]])
     box.place(s2)
