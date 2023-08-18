@@ -1,5 +1,4 @@
 from django.db import models
-import json
 import uuid
 
 from processor.fitting_utils import Package, Box
@@ -19,9 +18,7 @@ class Session(models.Model):
     @classmethod
     def initial_new_box(cls, rows, cols, rotation=False, rtl=False):
         box = Box(rows=rows, cols=cols)
-        cls.objects.create(box_matrix=box.matrix)
-
-        return box
+        return cls.objects.create(box_matrix=box.matrix)
 
     def get_main_box(self):
         return self.box

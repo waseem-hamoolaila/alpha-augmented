@@ -1,9 +1,33 @@
 {% extends "base.html" %}
 {% load static packages_tags %}
 {% block content %}
+    <style>
+    .input-box {
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        margin-top: 10px;
+    }
+    </style>
     <div class="row">
         <div class="col-md-3">
-            <button class="btn btn-secondary" id="render-box-btn">Generate a new box</button>
+            <div id="errors-box" class="alert alert-danger" style="display: none;"></div>
+            <div class="input-box">
+                <input type="text"
+                       name="rows"
+                       id="rows-input-id"
+                       class="form-control"
+                       placeholder="How many rows?" />
+                <input type="text"
+                       name="columns"
+                       id="cols-inout-id"
+                       class="form-control"
+                       placeholder="How many columns?" />
+                <button class="btn btn-primary" id="render-box-btn">Generate a new box</button>
+            </div>
         </div>
         <div class="col-md-7">
             <div class="row">
@@ -25,14 +49,18 @@
     <script>
     $(document).ready(function() {
 
+        let rowsNum = $("#rows-input-id").val()
+        let colsNum = $("#cols-input-id").val()
+
         let payload = {
             csrfmiddlewaretoken: "{{ csrf_token }}",
-            cols: 10, 
-            rows: 10, 
+            cols: colsNum, 
+            rows: rowsNum, 
             uuid: "",
         }
 
         $("#render-box-btn").click(function() {
+            resetValidation()
             $.ajax({
                 url: "{% url 'main:render-box' %}",
                 method: "post",
@@ -42,7 +70,7 @@
                     render_box(data.box_matrix)
                 },
                 error: (error) => {
-                    alert("error")
+                    renderValidations(error.responseJSON)
                 },
             });
         })
@@ -62,6 +90,20 @@
                 $box_container.append(rowElement)
             }
             
+        }
+
+
+        function renderValidations(errors) {
+            let $errorsBox = $("#errors-box")
+            $errorsBox.css("display", "block")
+            $errorsBox.empty()
+            $errorsBox.text(errors.__all__[0])
+        }
+
+        function resetValidation() {
+            let $errorsBox = $("#errors-box")
+            $errorsBox.css("display", "none")
+            $errorsBox.text("")
         }
     })
 

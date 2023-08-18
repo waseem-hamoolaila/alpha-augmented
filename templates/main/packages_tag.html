@@ -1,35 +1,35 @@
 <style>
+    .package-card {
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
     .shape {
         width: 30px;
         height: 30px;
-        display: inline-block;
-        margin: 1px;
-    }
-
-    .solid {
-        background-color: #FF0000;
+        margin: 2px;
     }
 
     .empty {
-        background-color: #FFFFFF;
-    }
-
-    .package-card {
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        background-color: #f5f5f5;
     }
 
 </style>
 <div class="row">
     {% for package in packages %}
-        <div class="col-md-2 col-sm-4 package-card m-2 d-flex flex-wrap justify-content-center align-items-center">
-            {% for row in package.structure %}
-                <div>
-                    {% for col in row %}
-                        <div class="shape {% if col == 1 %}solid{% else %}empty{% endif %}"></div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
+        <div class="col-md-2 col-sm-4 m-2">
+            <div class="d-flex flex-column align-items-center package-card">
+                {% for row in package.structure %}
+                    <div class="d-flex justify-content-center">
+                        {% for col in row %}
+                            <div class="shape {% if col == 1 %}solid{% else %}empty{% endif %}"
+                                 {% if col == 1 %} style="background-color: {{ package.color }}" {% endif %}></div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% endfor %}
 </div>
