@@ -29,18 +29,21 @@ class Box:
         [0, 0, 0],
     ]
 
-    def __init__(self, rows, cols, rtl=False):
+    def __init__(self, rows, cols, rtl=False, vertical=False):
         """
         Construct the main Box with initial values.
 
         Args:
             - rows (int): number of rows in the box
             - cols (int): number of cols in the box
+            - rtl (bool): packing the packages right to left, left to right by default
+            - vertical (bool): vertical point of view, horizontal by default.
         """
         self.rows = rows
         self.cols = cols
         self.matrix = [[0] * cols for _ in range(rows)] if not self.test else self.test_matrix
         self.rtl = rtl
+        self.vertical = vertical
 
     def _can_fit(self, package, row_index, col_index):
         """
@@ -65,6 +68,9 @@ class Box:
                     return False
 
                 if col_index - package_col < 0 and self.rtl:
+                    return False
+
+                if self.vertical and self.matrix[row_index - 1][col_index] == 1:
                     return False
 
                 try:
@@ -162,11 +168,13 @@ class Box:
 
 
 def main():
-    box = Box(5, 10, rtl=True)
+    box = Box(5, 10, rtl=False, vertical=False)
 
     # box.show()
-    s2 = Package([[1, 1, 1, 1, 1], [1, 1, 0, 1, 1]])
+    s2 = Package([[1, 0, 1, 1, 1], [1, 1, 0, 1, 1]])
+    s3 = Package([[1,],])
     box.scan_and_place(s2)
+    box.scan_and_place(s3)
     box.console_print()
 
     # print(box._can_fit(s2, 2, 2))
