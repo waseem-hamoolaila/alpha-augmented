@@ -114,7 +114,7 @@ class Box:
                     return False
         return True
 
-    def scan_and_place(self, package):
+    def place(self, package):
         """
         Try to fit an Package into the box.
 
@@ -161,20 +161,23 @@ class Box:
 
     def console_print(self):
         """
-        Used to print the current state of the box in the consol.
+        String representation of the current box.
         """
         for row in self.matrix:
-            print(row)
+            row_str = " ".join(str(cell) for cell in row)
+            print(row_str)
 
 
 def main():
-    box = Box(5, 10, rtl=False, vertical=False)
+    box = Box(5, 6, rtl=True, vertical=True)
 
     # box.show()
     s2 = Package([[1, 0, 1, 1, 1], [1, 1, 0, 1, 1]])
-    s3 = Package([[1,],])
-    box.scan_and_place(s2)
-    box.scan_and_place(s3)
+    s3 = Package([[1]])
+    box.place(s2)
+    box.place(s3)
+    box.place(s3)
+    box.place(s3)
     box.console_print()
 
     # print(box._can_fit(s2, 2, 2))
