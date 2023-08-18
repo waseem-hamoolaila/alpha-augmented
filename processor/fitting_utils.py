@@ -11,10 +11,22 @@ class Package:
             - structure (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
             - color (char -hexa-): Optional if you need to color the package.
         """
+
+        self._clean_structure(structure)
+
         self.structure = structure
         self.rows = len(structure)
         self.cols = len(structure[0])
         self.color = color
+
+    def _clean_structure(self, structure):
+        structure_type_message = "Package structure should be a nested list."
+
+        if not isinstance(structure, list):
+            raise TypeError(structure_type_message)
+
+        if not any(isinstance(row, list) for row in structure):
+            raise TypeError(structure_type_message)
 
 
 class Box:
@@ -174,6 +186,11 @@ def main():
     # box.show()
     s2 = Package([[1, 0, 1, 1, 1], [1, 1, 0, 1, 1]])
     s3 = Package([[1]])
+    s3 = Package(
+        [
+            1,
+        ]
+    )
     box.place(s2)
     box.place(s3)
     box.place(s3)
