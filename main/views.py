@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView, FormView
 from django.http import JsonResponse
 
-from .forms import RenderBoxForm
+from .forms import RenderBoxForm, PlacePackageForm
 from processor.packages import packages
 
 
@@ -37,3 +37,22 @@ class RenderBoxView(FormView):
         super().form_invalid(form)
 
         return JsonResponse(form.errors, status=400)
+
+
+class PlacePackageView(FormView):
+    form_class = PlacePackageForm
+    template_name = "main/main_board.html"
+    success_url = "/"
+
+    def form_valid(self, form):
+        super().form_valid(form)
+        ctx = form.place()
+
+        return JsonResponse(ctx, status=200)
+
+    def form_invalid(self, form):
+        super().form_invalid(form)
+
+        return JsonResponse(form.errors, status=400)
+
+    

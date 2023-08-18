@@ -3,7 +3,7 @@ class Package:
     The main block that will represent certain shapes
     """
 
-    def __init__(self, structure, color=None, first_is_bottom=False):
+    def __init__(self, structure, color=None, first_is_bottom=False, identifier=None):
         """
         Initial the Package
 
@@ -12,6 +12,7 @@ class Package:
             - color (char): Optional if you need to color the package.
             - first_is_bottom (bool): Optional if we want to consider the structure bottom up: the first passed row is the bottom,
                                 by default it is up-bottom, the first row passed will be the bottom one in the package representation.
+            - identifier (char): Optional, mark the package with a specific identifier and user it as needed.
         """
 
         self._validate_structure(structure)
@@ -21,6 +22,7 @@ class Package:
         self.cols = len(structure[0])
         self.color = color
         self.first_is_bottom = first_is_bottom
+        self.identifier = identifier
 
     def _validate_structure(self, structure):
         structure_type_message = "%s is not a valid structure, it should be two dimensional list" % structure

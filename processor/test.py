@@ -22,3 +22,6 @@ class TestFittingEngine(test.TestCase):
     def test_initial_box(self):
         self.assertEqual(self.box.cols, 8)
         self.assertEqual(self.box.rows, 8)
+        
+    
+    

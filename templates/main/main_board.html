@@ -14,19 +14,24 @@
     </style>
     <div class="row">
         <div class="col-md-3">
-            <div id="errors-box" class="alert alert-danger" style="display: none;"></div>
+            <div id="errors-box" class="alert alert-danger mt-2" style="display: none"></div>
             <div class="input-box">
+                <div>
+                    <small class="text-secondary">Session uuid:</small> <strong id="session-uuid-holder-id">-</strong>
+                </div>
+                <label for="rows-input-id" class="text-secondary">Rows</label>
                 <input type="text"
                        name="rows"
                        id="rows-input-id"
                        class="form-control"
                        placeholder="How many rows?" />
+                <label for="cols-input-id" class="text-secondary">Columns</label>
                 <input type="text"
                        name="columns"
-                       id="cols-inout-id"
+                       id="cols-input-id"
                        class="form-control"
                        placeholder="How many columns?" />
-                <button class="btn btn-primary" id="render-box-btn">Generate a new box</button>
+                <button class="btn btn-primary mt-2 btn-sm" id="render-box-btn">Generate a new box</button>
             </div>
         </div>
         <div class="col-md-7">
@@ -49,25 +54,24 @@
     <script>
     $(document).ready(function() {
 
-        let rowsNum = $("#rows-input-id").val()
-        let colsNum = $("#cols-input-id").val()
-
-        let payload = {
-            csrfmiddlewaretoken: "{{ csrf_token }}",
-            cols: colsNum, 
-            rows: rowsNum, 
-            uuid: "",
-        }
-
         $("#render-box-btn").click(function() {
             resetValidation()
+
+            let rowsNum = $("#rows-input-id").val()
+            let colsNum = $("#cols-input-id").val()
+    
+            let payload = {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                cols: colsNum, 
+                rows: rowsNum, 
+            }
             $.ajax({
                 url: "{% url 'main:render-box' %}",
                 method: "post",
                 dataType: "json",
                 data: payload,
                 success: (data) => {
-                    render_box(data.box_matrix)
+                    render_box(data)
                 },
                 error: (error) => {
                     renderValidations(error.responseJSON)
@@ -76,20 +80,22 @@
         })
 
 
-        function render_box(box_matrix) {
+        function render_box(data) {
+
+            $("#session-uuid-holder-id").text(data.uuid)
+
             let $box_container = $("#main-box-board-id")
             $box_container.empty()
-            for (row in box_matrix) {
+            for (row in data.box_matrix) {
                 const rowElement = document.createElement('tr');
-                for (col in box_matrix[row]){
-                    const cellData = box_matrix[row][col][0];
+                for (col in data.box_matrix[row]){
+                    const cellData = data.box_matrix[row][col][0];
                     const cellElement = document.createElement('td');
                     cellElement.textContent = cellData;
                     rowElement.append(cellElement);
                 }
                 $box_container.append(rowElement)
             }
-            
         }
 
 
