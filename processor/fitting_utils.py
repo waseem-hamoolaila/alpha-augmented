@@ -47,7 +47,7 @@ class Package:
         """
         rotated = [[self.structure[self.rows - row - 1][col] for row in range(self.rows)] for col in range(self.cols)]
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
-        self._structure = rotated
+        self.structure = rotated
 
     def console_print(self):
         """
@@ -69,7 +69,7 @@ class Box:
         [0, 0, 0],
     ]
 
-    def __init__(self, rows, cols, rtl=False, vertical=False):
+    def __init__(self, rows, cols, rtl=False, vertical=False, rotation=False):
         """
         Construct the main Box with initial values.
 
@@ -78,12 +78,14 @@ class Box:
             - cols (int): number of cols in the box
             - rtl (bool): packing the packages right to left, left to right by default
             - vertical (bool): vertical point of view, horizontal by default.
+            - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
         """
         self.rows = rows
         self.cols = cols
         self.matrix = [[0] * cols for _ in range(rows)] if not self.test else self.test_matrix
         self.rtl = rtl
         self.vertical = vertical
+        self.rotation = rotation
 
     def _can_fit(self, package, row_index, col_index):
         """
@@ -173,11 +175,17 @@ class Box:
                     current_col_index = box_col
                 current_row_index = self.rows - box_row - 1
 
-                if self._can_fit(package=package, row_index=current_row_index, col_index=current_col_index):
-                    self._fit_Package_into_the_box(
-                        package=package, row_index=current_row_index, col_index=current_col_index
-                    )
-                    return True
+                for rotation in range(3):
+                    if self._can_fit(package=package, row_index=current_row_index, col_index=current_col_index):
+                        self._fit_Package_into_the_box(
+                            package=package, row_index=current_row_index, col_index=current_col_index
+                        )
+                        return True
+
+                    if self.rotation:
+                        package.rotate()
+                    else:
+                        break
 
         return False  # the Package cannot be fitted.
 
@@ -209,13 +217,14 @@ class Box:
 
 
 def main():
-    box = Box(5, 6, rtl=False, vertical=True)
+    box = Box(5, 6, rtl=False, vertical=True, rotation=True)
 
     # box.show()
-    s2 = Package([[1, 0, 0], [0, 1, 0]], first_is_bottom=False)
-    s3 = Package([[1]])
-    s3 = Package([[1], [1]])
+    s2 = Package([[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]])
+    s3 = Package([[1, 1, 1]])
+    # s3 = Package([[1], [1]])
     box.place(s2)
+    box.place(s3)
     # box.place(s3)
     # box.place(s3)
     # box.place(s3)
