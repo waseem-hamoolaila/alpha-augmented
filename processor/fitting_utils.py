@@ -64,7 +64,7 @@ class Box:
     The main container, that will hold the Packages.
     """
 
-    def __init__(self, rows, cols, rtl=False, vertical=False, rotation=False):
+    def __init__(self, rows=5, cols=5, instance=None, rtl=False, vertical=False, rotation=False):
         """
         Construct the main Box with initial values.
 
@@ -75,9 +75,9 @@ class Box:
             - vertical (bool): vertical point of view (insertion), horizontal by default.
             - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
         """
-        self.rows = rows
-        self.cols = cols
-        self.matrix = [[(0, "") for _ in range(cols)] for _ in range(rows)]
+        self.rows = rows if not instance else len(instance)
+        self.cols = cols if not instance else len(instance[0])
+        self.matrix = [[(0, "") for _ in range(cols)] for _ in range(rows)] if not instance else instance
         self.rtl = rtl
         self.vertical = vertical
         self.rotation = rotation

@@ -54,5 +54,3 @@ class PlacePackageView(FormView):
         super().form_invalid(form)
 
         return JsonResponse(form.errors, status=400)
-
-    

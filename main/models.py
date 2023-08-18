@@ -1,7 +1,8 @@
 from django.db import models
 import uuid
 
-from processor.fitting_utils import Package, Box
+from processor.fitting_utils import Box
+from processor.helpers import get_package_from_list
 
 
 class Session(models.Model):
@@ -16,9 +17,17 @@ class Session(models.Model):
         return "%s" % self.uuid
 
     @classmethod
-    def initial_new_box(cls, rows, cols, rotation=False, rtl=False):
+    def initial_new_box(cls, rows, cols):
         box = Box(rows=rows, cols=cols)
         return cls.objects.create(box_matrix=box.matrix)
 
-    def get_main_box(self):
-        return self.box
+    def place_package(self, package_identifier, rotation=False, rtl=False, vertical=False):
+        # we can find a way to prevent passing the rows / cols in case of instance is passed
+        box = Box(instance=self.box_matrix, rotation=rotation, rtl=rtl, vertical=vertical)
+        package = get_package_from_list(identifier=package_identifier)
+        result = box.place(package)
+        self.box_matrix = box.matrix
+        self.save()
+        self.refresh_from_db()
+
+        return result, self.box_matrix

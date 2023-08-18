@@ -19,6 +19,7 @@
                 <div>
                     <small class="text-secondary">Session uuid:</small> <strong id="session-uuid-holder-id">-</strong>
                 </div>
+                <hr />
                 <label for="rows-input-id" class="text-secondary">Rows</label>
                 <input type="text"
                        name="rows"
@@ -32,6 +33,73 @@
                        class="form-control"
                        placeholder="How many columns?" />
                 <button class="btn btn-primary mt-2 btn-sm" id="render-box-btn">Generate a new box</button>
+                <hr />
+                <p class="text-secondary mt-2 mb-2">Settings</p>
+                <hr />
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="rtl"
+                           value="false"
+                           checked
+                           id="ltr-input">
+                    <label class="form-check-label" for="ltr-input">Left to right packing</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="rtl"
+                           value="true"
+                           id="rtl-input">
+                    <label class="form-check-label" for="rtl-input">Right to left packing</label>
+                </div>
+                <small class="text-secondary">
+                    Control the direction of packing, weather from right to left or left to right, both will start
+                    from the bottom up.
+                </small>
+                <hr />
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="vertical-pov"
+                           value="false"
+                           checked
+                           id="horizontal-input">
+                    <label class="form-check-label" for="horizontal-input">Horizontal POV</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="vertical-pov"
+                           value="true"
+                           id="vertical-input">
+                    <label class="form-check-label" for="vertical-input">Vertical POV</label>
+                </div>
+                <small class="text-secondary">
+                    Pack horizontally or vertically, the behaviour of the algorithim will change based on this value.
+                </small>
+                <hr />
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="rotation"
+                           value="false"
+                           checked
+                           id="rotation-off-input">
+                    <label class="form-check-label" for="rotation-off-input">Rotation OFF</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="rotation"
+                           value="true"
+                           id="rotation-on-input">
+                    <label class="form-check-label" for="rotation-on-input">Rotation ON</label>
+                </div>
+                <small class="text-secondary">
+                    Rotate the package in 4 positions, 45, 90, 145, 180 degrees to test the fit.
+                </small>
+                <hr />
             </div>
         </div>
         <div class="col-md-7">
@@ -54,6 +122,8 @@
     <script>
     $(document).ready(function() {
 
+        var uuid = null
+
         $("#render-box-btn").click(function() {
             resetValidation()
 
@@ -72,6 +142,7 @@
                 data: payload,
                 success: (data) => {
                     render_box(data)
+                    uuid = data.uuid
                 },
                 error: (error) => {
                     renderValidations(error.responseJSON)
@@ -81,17 +152,19 @@
 
 
         function render_box(data) {
-
+            let cellSize = 60;
             $("#session-uuid-holder-id").text(data.uuid)
-
             let $box_container = $("#main-box-board-id")
             $box_container.empty()
             for (row in data.box_matrix) {
                 const rowElement = document.createElement('tr');
                 for (col in data.box_matrix[row]){
-                    const cellData = data.box_matrix[row][col][0];
+                    // const cellData = data.box_matrix[row][col][0];
                     const cellElement = document.createElement('td');
-                    cellElement.textContent = cellData;
+                    cellElement.style.backgroundColor = data.box_matrix[row][col][1];
+                    cellElement.style.width = cellSize + 'px';
+                    cellElement.style.height = cellSize + 'px';
+                    // cellElement.textContent = cellData;
                     rowElement.append(cellElement);
                 }
                 $box_container.append(rowElement)
@@ -111,6 +184,39 @@
             $errorsBox.css("display", "none")
             $errorsBox.text("")
         }
+
+        $(".package-card").on("click", function() {
+            
+            const rtlValue = $("input[name='rtl']:checked").val();
+            const verticalPovValue = $("input[name='vertical-pov']:checked").val();
+            const rotationValue = $("input[name='rotation']:checked").val();
+
+            let package_id = $(this).data("id")
+
+            let payload = {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                uuid: uuid,
+                package_id: package_id,
+                rtl: rtlValue,
+                vertical: verticalPovValue,
+                rotation: rotationValue,
+            }
+
+            $.ajax({
+                url: "{% url 'main:place-package' %}",
+                method: "post",
+                dataType: "json",
+                data: payload,
+                success: (data) => {
+                    render_box(data)
+                },
+                error: (error) => {
+                    renderValidations(error.responseJSON)
+                },
+            });
+
+
+        })
     })
 
     </script>
