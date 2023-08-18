@@ -16,6 +16,9 @@ class CellItem:
         self.value = value
         self.color = color
 
+    def __str__(self):
+        return self.value
+
 
 class Package:
     """
@@ -96,7 +99,7 @@ class Box:
             - rows (int): number of rows in the box
             - cols (int): number of cols in the box
             - rtl (bool): packing the packages right to left, left to right by default
-            - vertical (bool): vertical point of view, horizontal by default.
+            - vertical (bool): vertical point of view (insertion), horizontal by default.
             - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
         """
         self.rows = rows
@@ -132,7 +135,7 @@ class Box:
                     return False
 
                 upper_cell = self.matrix[row_index - 1][col_index]
-                if self.vertical and isinstance(upper_cell, CellItem) and upper_cell.value == 1:
+                if self.vertical and upper_cell == 1:
                     return False
 
                 try:
@@ -172,6 +175,7 @@ class Box:
                     else:
                         if package._structure[package_row][package_col] == 1:
                             self.matrix[row_index - package_row][col_index + package_col] = 1
+
                 except IndexError:
                     return False
         return True
@@ -237,17 +241,17 @@ class Box:
 
 
 def main():
-    box = Box(5, 6, rtl=False, vertical=True, rotation=True)
+    box = Box(5, 10, rtl=False, vertical=True, rotation=True)
 
     # box.show()
     s2 = Package([[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]])
     s3 = Package([[1, 1, 1]])
     # s3 = Package([[1], [1]])
-    box.place(s2)
+    # box.place(s2)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
     box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
     # box.place(s3)
     # box.place(s2)
     box.console_print()
