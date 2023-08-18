@@ -23,10 +23,10 @@ class Package:
         structure_type_message = "Package structure must be a nested list."
 
         if not isinstance(structure, list):
-            raise TypeError(structure_type_message)
+            raise ValueError(structure_type_message)
 
         if not any(isinstance(row, list) for row in structure):
-            raise TypeError(structure_type_message)
+            raise ValueError(structure_type_message)
 
 
 class Box:
