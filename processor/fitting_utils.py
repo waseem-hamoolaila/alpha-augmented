@@ -17,7 +17,7 @@ class CellItem:
         self.color = color
 
     def __str__(self):
-        return self.value
+        return str(self.value)
 
 
 class Package:
@@ -104,10 +104,20 @@ class Box:
         """
         self.rows = rows
         self.cols = cols
-        self.matrix = [[0] * cols for _ in range(rows)] if not self.test else self.test_matrix
+        self.matrix = [[CellItem(value=0) for _ in range(cols)] for _ in range(rows)]
         self.rtl = rtl
         self.vertical = vertical
         self.rotation = rotation
+
+    def initial_box(self):
+        grid = []
+        for _ in range(self.rows):
+            row = []
+            for _ in range(self.cols):
+                row.append(CellItem(value=0))
+            grid.append(row)
+
+        return grid
 
     def _can_fit(self, package, row_index, col_index):
         """
@@ -135,7 +145,7 @@ class Box:
                     return False
 
                 upper_cell = self.matrix[row_index - 1][col_index]
-                if self.vertical and upper_cell == 1:
+                if self.vertical and upper_cell.value == 1:
                     return False
 
                 try:
@@ -146,7 +156,7 @@ class Box:
                         box_cell = self.matrix[row_index - package_row][col_index + package_col]
                         package_cell = package._structure[package_row][package_col]
 
-                    if box_cell == 1 and package_cell == 1:
+                    if box_cell.value == 1 and package_cell == 1:
                         return False
 
                 except IndexError:
@@ -171,10 +181,10 @@ class Box:
                 try:
                     if self.rtl:
                         if package._structure[package_row][package_col] == 1:
-                            self.matrix[row_index - package_row][col_index - package_col] = 1
+                            self.matrix[row_index - package_row][col_index - package_col].value = 1
                     else:
                         if package._structure[package_row][package_col] == 1:
-                            self.matrix[row_index - package_row][col_index + package_col] = 1
+                            self.matrix[row_index - package_row][col_index + package_col].value = 1
 
                 except IndexError:
                     return False
@@ -236,12 +246,12 @@ class Box:
         String representation of the current box.
         """
         for row in self.matrix:
-            row_str = " ".join(str(cell) for cell in row)
+            row_str = " ".join(str(cell.value) for cell in row)
             print(row_str)
 
 
 def main():
-    box = Box(5, 10, rtl=False, vertical=True, rotation=True)
+    box = Box(5, 6, rtl=False, vertical=True, rotation=True)
 
     # box.show()
     s2 = Package([[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]])
