@@ -1,13 +1,73 @@
 {% extends "base.html" %}
 {% block content %}
-    Render a box
-    <button>Render</button>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-secondary" id="render-box-btn">Generate a new box</button>
+        </div>
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-12">
+                    {% for package in packages %}
+                        {% for structure in package.structure %}
+                            {{ structure }}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="col-md-12">
+                    <h4 class="text-center">Your Box</h4>
+                    <div>
+                        <table class="table table-bordered">
+                            <tbody id="main-box-board-id">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
 {% block extra_js %}
     <script>
-
     $(document).ready(function() {
 
+        let payload = {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            cols: 10, 
+            rows: 10, 
+            uuid: "",
+        }
+
+        $("#render-box-btn").click(function() {
+            $.ajax({
+                url: "{% url 'main:render-box' %}",
+                method: "post",
+                dataType: "json",
+                data: payload,
+                success: (data) => {
+                    render_box(data.box_matrix)
+                },
+                error: (error) => {
+                    alert("error")
+                },
+            });
+        })
+
+
+        function render_box(box_matrix) {
+            let $box_container = $("#main-box-board-id")
+            $box_container.empty()
+            for (row in box_matrix) {
+                const rowElement = document.createElement('tr');
+                for (col in box_matrix[row]){
+                    const cellData = box_matrix[row][col][0];
+                    const cellElement = document.createElement('td');
+                    cellElement.textContent = cellData;
+                    rowElement.append(cellElement);
+                }
+                $box_container.append(rowElement)
+            }
+            
+        }
     })
 
     </script>

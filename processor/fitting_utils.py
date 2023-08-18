@@ -1,25 +1,3 @@
-class CellItem:
-    """
-    Cell item to be placed in each cell instead of a plain number
-    it will hold more values that will be useful when visualizing the box
-    """
-
-    def __init__(self, value, color=None):
-        """
-        Initial a cell value,
-
-        Args:
-        value (int): the value that the cell should hold
-        color (char): the color of the cell.
-
-        """
-        self.value = value
-        self.color = color
-
-    def __str__(self):
-        return str(self.value)
-
-
 class Package:
     """
     The main block that will represent certain shapes
@@ -97,7 +75,7 @@ class Box:
         """
         self.rows = rows
         self.cols = cols
-        self.matrix = [[CellItem(value=0) for _ in range(cols)] for _ in range(rows)]
+        self.matrix = [[(0, "") for _ in range(cols)] for _ in range(rows)]
         self.rtl = rtl
         self.vertical = vertical
         self.rotation = rotation
@@ -128,7 +106,7 @@ class Box:
                     return False
 
                 upper_cell = self.matrix[row_index - 1][col_index]
-                if self.vertical and upper_cell.value == 1:
+                if self.vertical and upper_cell[0] == 1:
                     return False
 
                 try:
@@ -139,7 +117,7 @@ class Box:
                         box_cell = self.matrix[row_index - package_row][col_index + package_col]
                         package_cell = package._structure[package_row][package_col]
 
-                    if box_cell.value == 1 and package_cell == 1:
+                    if box_cell[0] == 1 and package_cell == 1:
                         return False
 
                 except IndexError:
@@ -164,10 +142,10 @@ class Box:
                 try:
                     if self.rtl:
                         if package._structure[package_row][package_col] == 1:
-                            self.matrix[row_index - package_row][col_index - package_col].value = 1
+                            self.matrix[row_index - package_row][col_index - package_col] = (1, package.color)
                     else:
                         if package._structure[package_row][package_col] == 1:
-                            self.matrix[row_index - package_row][col_index + package_col].value = 1
+                            self.matrix[row_index - package_row][col_index + package_col] = (1, package.color)
 
                 except IndexError:
                     return False
@@ -229,7 +207,7 @@ class Box:
         String representation of the current box.
         """
         for row in self.matrix:
-            row_str = " ".join(str(cell.value) for cell in row)
+            row_str = " ".join(str(cell[0]) for cell in row)
             print(row_str)
 
 

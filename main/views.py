@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, FormView
 from django.http import JsonResponse
 
 from .forms import RenderBoxForm
+from processor.packages import packages
 
 
 class MainBoardView(TemplateView):
@@ -12,7 +13,8 @@ class MainBoardView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        context["packages"] = packages
+        
         return context
 
 
@@ -26,13 +28,15 @@ class RenderBoxView(FormView):
 
     form_class = RenderBoxForm
     template_name = "main/main_board.html"
+    success_url = "/"
 
     def form_valid(self, form):
         super().form_valid(form)
+        ctx = form.initial_new_session()
 
-        return JsonResponse({}, status=200)
+        return JsonResponse(ctx, status=200)
 
     def form_invalid(self, form):
         super().form_invalid(form)
 
-        return JsonResponse({}, status=400)
+        return JsonResponse(form.errors, status=400)

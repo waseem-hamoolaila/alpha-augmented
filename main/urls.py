@@ -6,5 +6,5 @@ app_name = "main"
 
 urlpatterns = [
     path("", MainBoardView.as_view(), name="board"),
-    path("render-box/", RenderBoxView.as_view(), name="render_box"),
+    path("render-box/", RenderBoxView.as_view(), name="render-box"),
 ]
