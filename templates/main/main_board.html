@@ -158,12 +158,10 @@
             for (row in data.box_matrix) {
                 const rowElement = document.createElement('tr');
                 for (col in data.box_matrix[row]){
-                    // const cellData = data.box_matrix[row][col][0];
                     const cellElement = document.createElement('td');
                     cellElement.style.backgroundColor = data.box_matrix[row][col][1];
                     cellElement.style.width = cellSize + 'px';
                     cellElement.style.height = cellSize + 'px';
-                    // cellElement.textContent = cellData;
                     rowElement.append(cellElement);
                 }
                 $box_container.append(rowElement)
