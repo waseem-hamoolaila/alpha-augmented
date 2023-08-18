@@ -3,13 +3,15 @@ class Package:
     The main block that will represent certain shapes
     """
 
-    def __init__(self, structure, color=None):
+    def __init__(self, structure, color=None, bottom_up=False):
         """
         Initial the Package
 
         Args:
             - structure (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
             - color (char): Optional if you need to color the package.
+            - bottom_up (bool): Optional if we want to consider the structure bottom up: the first passed row is the bottom,
+                                by default it is up-bottom, the first row passed will be the bottom one in the package representation.
         """
 
         self._validate_structure(structure)
@@ -18,6 +20,7 @@ class Package:
         self.rows = len(structure)
         self.cols = len(structure[0])
         self.color = color
+        self.bottom_up = bottom_up
 
     def _validate_structure(self, structure):
         structure_type_message = "%s is not a valid structure, it should be two dimensional list" % structure
@@ -28,19 +31,29 @@ class Package:
         if not any(isinstance(row, list) for row in structure):
             raise ValueError(structure_type_message)
 
+    @property
+    def _structure(self):
+        """
+        Used to flip the structure... in case we want to consider the first
+        array as the bottom or the top
+        """
+        if self.bottom_up:
+            return [self.structure[row] for row in range(self.rows - 1, -1, -1)]
+        return self.structure
+
     def rotate(self):
         """
         Rotate the package 45 degree clock wise.
         """
         rotated = [[self.structure[self.rows - row - 1][col] for row in range(self.rows)] for col in range(self.cols)]
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
-        self.structure = rotated
+        self._structure = rotated
 
     def console_print(self):
         """
         String representation of the current box.
         """
-        for row in self.structure:
+        for row in self._structure:
             print(row)
 
 
@@ -91,7 +104,6 @@ class Box:
 
         for package_row in range(package.rows):
             for package_col in range(package.cols):
-                
                 if col_index + package_col >= self.cols and not self.rtl:
                     return False
 
@@ -104,10 +116,10 @@ class Box:
                 try:
                     if self.rtl:
                         box_cell = self.matrix[row_index - package_row][col_index - package_col]
-                        package_cell = package.structure[package_row][package.cols - package_col - 1]
+                        package_cell = package._structure[package_row][package.cols - package_col - 1]
                     else:
                         box_cell = self.matrix[row_index - package_row][col_index + package_col]
-                        package_cell = package.structure[package_row][package_col]
+                        package_cell = package._structure[package_row][package_col]
 
                     if box_cell == 1 and package_cell == 1:
                         return False
@@ -133,10 +145,10 @@ class Box:
             for package_col in range(package.cols):
                 try:
                     if self.rtl:
-                        if package.structure[package_row][package_col] == 1:
+                        if package._structure[package_row][package_col] == 1:
                             self.matrix[row_index - package_row][col_index - package_col] = 1
                     else:
-                        if package.structure[package_row][package_col] == 1:
+                        if package._structure[package_row][package_col] == 1:
                             self.matrix[row_index - package_row][col_index + package_col] = 1
                 except IndexError:
                     return False
@@ -200,16 +212,18 @@ def main():
     box = Box(5, 6, rtl=False, vertical=True)
 
     # box.show()
-    s2 = Package([[1, 0, 0], [0, 1, 0]])
+    s2 = Package([[1, 0, 0], [0, 1, 0]], bottom_up=True)
     s3 = Package([[1]])
     s3 = Package([[1], [1]])
-    # box.place(s2)
-    # box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
     box.place(s2)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s2)
     box.console_print()
+
+    # print(s2.structure)
 
 
 if __name__ == "__main__":
