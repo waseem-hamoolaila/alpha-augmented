@@ -1,3 +1,22 @@
+class CellItem:
+    """
+    Cell item to be placed in each cell instead of a plain number
+    it will hold more values that will be useful when visualizing the box
+    """
+
+    def __init__(self, value, color=None):
+        """
+        Initial a cell value,
+
+        Args:
+        value (int): the value that the cell should hold
+        color (char): the color of the cell.
+
+        """
+        self.value = value
+        self.color = color
+
+
 class Package:
     """
     The main block that will represent certain shapes
@@ -112,7 +131,8 @@ class Box:
                 if col_index - package_col < 0 and self.rtl:
                     return False
 
-                if self.vertical and self.matrix[row_index - 1][col_index] == 1:
+                upper_cell = self.matrix[row_index - 1][col_index]
+                if self.vertical and isinstance(upper_cell, CellItem) and upper_cell.value == 1:
                     return False
 
                 try:
@@ -175,7 +195,7 @@ class Box:
                     current_col_index = box_col
                 current_row_index = self.rows - box_row - 1
 
-                for rotation in range(3):
+                for _ in range(4):  # rotation
                     if self._can_fit(package=package, row_index=current_row_index, col_index=current_col_index):
                         self._fit_Package_into_the_box(
                             package=package, row_index=current_row_index, col_index=current_col_index
