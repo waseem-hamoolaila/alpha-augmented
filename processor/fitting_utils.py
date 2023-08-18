@@ -84,13 +84,6 @@ class Box:
     The main container, that will hold the Packages.
     """
 
-    test = False
-    test_matrix = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-    ]
-
     def __init__(self, rows, cols, rtl=False, vertical=False, rotation=False):
         """
         Construct the main Box with initial values.
