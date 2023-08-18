@@ -11,3 +11,7 @@ class Session(models.Model):
 
     def __str__(self):
         return "%s" % self.uuid
+
+    def get_main_box(self):
+        return self.box
+    

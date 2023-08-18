@@ -102,7 +102,6 @@ class Box:
         self.vertical = vertical
         self.rotation = rotation
 
-
     def _can_fit(self, package, row_index, col_index):
         """
         Check if I can place a specific Package in the a given coordinate.
