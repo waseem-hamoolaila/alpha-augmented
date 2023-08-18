@@ -214,26 +214,3 @@ class Box:
         for row in self.matrix:
             row_str = " ".join(str(cell[0]) for cell in row)
             print(row_str)
-
-
-def main():
-    box = Box(5, 6, rtl=False, vertical=True, rotation=True)
-
-    # box.show()
-    s2 = Package([[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]])
-    s3 = Package([[1, 1, 1]])
-    # s3 = Package([[1], [1]])
-    # box.place(s2)
-    # box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
-    box.place(s3)
-    # box.place(s3)
-    # box.place(s2)
-    box.console_print()
-
-    # print(s2.structure)
-
-
-if __name__ == "__main__":
-    main()
