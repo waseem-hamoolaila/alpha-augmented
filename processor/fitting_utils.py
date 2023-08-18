@@ -102,15 +102,6 @@ class Box:
         self.vertical = vertical
         self.rotation = rotation
 
-    def initial_box(self):
-        grid = []
-        for _ in range(self.rows):
-            row = []
-            for _ in range(self.cols):
-                row.append(CellItem(value=0))
-            grid.append(row)
-
-        return grid
 
     def _can_fit(self, package, row_index, col_index):
         """
