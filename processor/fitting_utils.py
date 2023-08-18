@@ -12,7 +12,7 @@ class Package:
             - color (char): Optional if you need to color the package.
             - first_is_bottom (bool): Optional if we want to consider the structure bottom up: the first passed row is the bottom,
                                 by default it is up-bottom, the first row passed will be the bottom one in the package representation.
-            - identifier (char): Optional, mark the package with a specific identifier and user it as needed.
+            - identifier (any): Optional, mark the package with a specific identifier and user it as needed.
         """
 
         self._validate_structure(structure)
