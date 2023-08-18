@@ -107,6 +107,9 @@ class Box:
                 if col_index - package_col < 0 and self.rtl:
                     return False
 
+                if row_index - package_row < 0:
+                    return False
+
                 upper_cell = self.matrix[row_index - 1][col_index]
                 if self.vertical and upper_cell[0] == 1:
                     return False

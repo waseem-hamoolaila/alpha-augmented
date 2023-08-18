@@ -96,9 +96,7 @@
                            id="rotation-on-input">
                     <label class="form-check-label" for="rotation-on-input">Rotation ON</label>
                 </div>
-                <small class="text-secondary">
-                    Rotate the package in 4 positions, 45, 90, 145, 180 degrees to test the fit.
-                </small>
+                <small class="text-secondary">Rotate the package in 4 positions, 45, 90, 145, 180 degrees to test the fit.</small>
                 <hr />
             </div>
         </div>
@@ -107,6 +105,7 @@
                 <div class="col-md-12">{% render_packages packages %}</div>
                 <div class="col-md-12">
                     <h4 class="text-center">Your Box</h4>
+                    <p class="text-danger" id="fitting-errors"></p>
                     <div>
                         <table class="table table-bordered">
                             <tbody id="main-box-board-id">
@@ -209,14 +208,24 @@
                 data: payload,
                 success: (data) => {
                     render_box(data)
+                    fitting_errors(data)
                 },
                 error: (error) => {
                     renderValidations(error.responseJSON)
                 },
             });
 
-
         })
+
+        function fitting_errors(data) {
+            result = data.result
+            let $fitting_errors_el = $("#fitting-errors")
+            if (result) {
+                $fitting_errors_el.text("")
+            } else {
+                $fitting_errors_el.text("This package cannot fit into the box.")
+            }
+        }
     })
 
     </script>
