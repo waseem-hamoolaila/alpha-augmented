@@ -30,18 +30,11 @@ class Package:
 
     def rotate(self):
         """
-        Rotate the package 45 degree.
+        Rotate the package 45 degree clock wise.
         """
-        rotated_structure = []
-        for col in range(self.cols):
-            rotated_row = []
-            for row in range(self.rows):
-                rotated_row = [self.structure[row][col]] + rotated_row
-
-            rotated_structure.append(rotated_row)
-
+        rotated = [[self.structure[self.rows - row - 1][col] for row in range(self.rows)] for col in range(self.cols)]
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
-        self.structure = rotated_structure
+        self.structure = rotated
 
     def console_print(self):
         """
@@ -98,6 +91,7 @@ class Box:
 
         for package_row in range(package.rows):
             for package_col in range(package.cols):
+                
                 if col_index + package_col >= self.cols and not self.rtl:
                     return False
 
@@ -209,21 +203,13 @@ def main():
     s2 = Package([[1, 0, 0], [0, 1, 0]])
     s3 = Package([[1]])
     s3 = Package([[1], [1]])
+    # box.place(s2)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
+    # box.place(s3)
     box.place(s2)
-    # box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
-    # box.place(s3)
-    # box.console_print()
-
-    # print(box._can_fit(s2, 2, 2))
-
-    s2.console_print()
-
-    print("====")
-    s2.rotate()
-    s2.console_print()
+    box.console_print()
 
 
 if __name__ == "__main__":
