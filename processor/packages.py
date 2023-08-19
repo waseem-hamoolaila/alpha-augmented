@@ -16,6 +16,6 @@ packages = [
     Package([[1, 1, 0], [0, 1, 1]], color="#41f4fa", identifier=9),
     Package([[1, 0], [1, 1], [0, 1]], color="#803cb0", identifier=10),
     Package([[1, 1], [0, 1], [0, 1]], color="#b03c82", identifier=11),
-    Package([[1, 1, 1], [0, 0, 1]], color="#3b3b0d", identifier=12),
+    Package([[1, 1, 1], [0, 0, 1]], color="#801100", identifier=12),
     Package([[1, 1, 1], [0, 1, 0]], color="#756a00", identifier=13),
 ]
