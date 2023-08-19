@@ -23,8 +23,7 @@ Installation locally
 * activate it.
 
 After cloning and activating the virtual env
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+---------------------------------------------
 
 .. code-block:: python
     > cd alpha
