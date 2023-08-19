@@ -21,9 +21,9 @@ class Session(models.Model):
         box = Box(rows=rows, cols=cols)
         return cls.objects.create(box_matrix=box.matrix)
 
-    def place_package(self, package_identifier, rotation=False, rtl=False, vertical=False):
+    def place_package(self, package_identifier, rotation=False, rtl=False, horizontal=False):
         # we can find a way to prevent passing the rows / cols in case of instance is passed
-        box = Box(instance=self.box_matrix, rotation=rotation, rtl=rtl, vertical=vertical)
+        box = Box(instance=self.box_matrix, rotation=rotation, rtl=rtl, horizontal=horizontal)
         package = get_package_from_list(identifier=package_identifier)
         result = box.place(package)
         self.box_matrix = box.matrix

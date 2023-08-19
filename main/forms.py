@@ -39,7 +39,7 @@ class PlacePackageForm(forms.Form):
     package_id = forms.IntegerField()
     rotation = forms.BooleanField(required=False)
     rtl = forms.BooleanField(required=False)
-    vertical = forms.BooleanField(required=False)
+    horizontal = forms.BooleanField(required=False)
 
     session = None
 
@@ -63,9 +63,14 @@ class PlacePackageForm(forms.Form):
     def place(self):
         rotation = self.cleaned_data.get("rotation")
         rtl = self.cleaned_data.get("rtl")
-        vertical = self.cleaned_data.get("vertical")
-        
-        result, new_matrix = self.session.place_package(self.cleaned_data.get("package_id"), rotation=rotation, rtl=rtl)
+        horizontal = self.cleaned_data.get("horizontal")
+
+        result, new_matrix = self.session.place_package(
+            self.cleaned_data.get("package_id"),
+            rotation=rotation,
+            rtl=rtl,
+            horizontal=horizontal,
+        )
 
         ctx = {
             "result": result,

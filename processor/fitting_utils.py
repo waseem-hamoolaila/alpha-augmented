@@ -76,7 +76,7 @@ class Box:
         cols=5,
         instance=None,
         rtl=False,
-        vertical=False,
+        horizontal=False,
         rotation=False,
     ):
         """
@@ -86,14 +86,14 @@ class Box:
             - rows (int): number of rows in the box
             - cols (int): number of cols in the box
             - rtl (bool): packing the packages right to left, left to right by default
-            - vertical (bool): vertical point of view (insertion), horizontal by default.
+            - horizontal (bool): horizontal point of view (deal with the box as shelves), vertical by default.
             - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
         """
         self.rows = rows if not instance else len(instance)
         self.cols = cols if not instance else len(instance[0])
         self.matrix = [[(0, "") for _ in range(cols)] for _ in range(rows)] if not instance else instance
         self.rtl = rtl
-        self.vertical = vertical
+        self.horizontal = horizontal
         self.rotation = rotation
 
     def _can_fit(self, package, row_index, col_index):
@@ -125,7 +125,7 @@ class Box:
                     return False
 
                 upper_cell = self.matrix[row_index - 1][col_index]
-                if self.vertical and upper_cell[0] == 1:
+                if not self.horizontal and upper_cell[0] == 1:
                     return False
 
                 try:

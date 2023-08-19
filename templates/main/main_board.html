@@ -60,22 +60,24 @@
                 <div class="form-check">
                     <input class="form-check-input"
                            type="radio"
-                           name="vertical-pov"
+                           name="horizontal-pov"
                            value="false"
                            checked
-                           id="horizontal-input">
-                    <label class="form-check-label" for="horizontal-input">Horizontal POV</label>
+                           id="vertical-input">
+                    <label class="form-check-label" for="vertical-input">Vertical POV</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input"
                            type="radio"
-                           name="vertical-pov"
+                           name="horizontal-pov"
                            value="true"
-                           id="vertical-input">
-                    <label class="form-check-label" for="vertical-input">Vertical POV</label>
+                           id="horizontal-input">
+                    <label class="form-check-label" for="horizontal-input">Horizontal POV</label>
                 </div>
+               
                 <small class="text-secondary">
-                    Pack horizontally or vertically, the behaviour of the algorithim will change based on this value.
+                    Pack horizontally or vertically, vertically means the dropping is from the top of the box, 
+                    horizontally as in shelves.
                 </small>
                 <hr />
                 <div class="form-check">
@@ -195,7 +197,7 @@
             $("#processing-indicator-id").css("display", "block")
             
             const rtlValue = $("input[name='rtl']:checked").val();
-            const verticalPovValue = $("input[name='vertical-pov']:checked").val();
+            const horizontalPovValue = $("input[name='horizontal-pov']:checked").val();
             const rotationValue = $("input[name='rotation']:checked").val();
 
             let package_id = $(this).data("id")
@@ -205,7 +207,7 @@
                 uuid: uuid,
                 package_id: package_id,
                 rtl: rtlValue,
-                vertical: verticalPovValue,
+                horizontal: horizontalPovValue,
                 rotation: rotationValue,
             }
 
