@@ -190,10 +190,10 @@ class Box:
 
     def place(self, package):
         """
-        Try to fit an Package into the box.
+        Place the package inside the box.
 
         Args:
-            - Package (Package): the Package that I want to fit in to the box
+            - package (Package): the Package that I want to fit in to the box
 
         Returns:
             - bool: True in case the Package fitted successfully, False otherwise
@@ -233,7 +233,7 @@ class Box:
         """
 
         for package in list_of_packages:
-            result = self.scan_and_fit(package)
+            result = self.place(package)
             if not result:
                 return False
 
