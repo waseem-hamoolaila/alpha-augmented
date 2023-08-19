@@ -124,12 +124,11 @@ class Box:
                 if row_index - package_row < 0:
                     return False
 
-                upper_cell = self.matrix[row_index - 1][col_index]
-                # TODO:
-                # In here we should check all the way up
-                # from the adding cell all the way to the top
-                # currently we are just checking the direct upper cell.
-                if not self.horizontal and upper_cell[0] == 1:
+                # upper_cell = self.matrix[row_index - 1][col_index]
+                # if not self.horizontal and upper_cell[0] == 1:
+                #     return False
+
+                if not self._clear_all_the_way_up(row_index=row_index, col_index=col_index) and not self.horizontal:
                     return False
 
                 try:
@@ -148,7 +147,25 @@ class Box:
 
         return True
 
-    def _fit_Package_into_the_box(self, package, row_index, col_index):
+    def _clear_all_the_way_up(self, row_index, col_index):
+        """
+        Check if on a specific cell that it is clear till the top of the matrix
+
+        Args:
+            - row_index (int): row index from where to check
+            - col_index (int): col index from where to check
+
+        Returns:
+            - bool: True if the way up is clear, False otherwise
+        """
+
+        for row in range(row_index, -1, -1):
+            if self.matrix[row][col_index][0] == 1:
+                return False
+
+        return True
+
+    def _fit_package_into_the_box(self, package, row_index, col_index):
         """
         Actually fit the Package into the box
 
@@ -196,7 +213,7 @@ class Box:
 
                 for _ in range(4):  # rotation
                     if self._can_fit(package=package, row_index=current_row_index, col_index=current_col_index):
-                        self._fit_Package_into_the_box(
+                        self._fit_package_into_the_box(
                             package=package, row_index=current_row_index, col_index=current_col_index
                         )
                         return True
