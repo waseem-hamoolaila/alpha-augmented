@@ -3,7 +3,13 @@ class Package:
     The main block that will represent certain shapes
     """
 
-    def __init__(self, structure, color=None, first_is_bottom=False, identifier=None):
+    def __init__(
+        self,
+        structure,
+        color=None,
+        first_is_bottom=False,
+        identifier=None,
+    ):
         """
         Initial the Package
 
@@ -64,7 +70,15 @@ class Box:
     The main container, that will hold the Packages.
     """
 
-    def __init__(self, rows=5, cols=5, instance=None, rtl=False, vertical=False, rotation=False):
+    def __init__(
+        self,
+        rows=5,
+        cols=5,
+        instance=None,
+        rtl=False,
+        vertical=False,
+        rotation=False,
+    ):
         """
         Construct the main Box with initial values.
 
