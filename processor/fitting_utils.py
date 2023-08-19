@@ -125,6 +125,10 @@ class Box:
                     return False
 
                 upper_cell = self.matrix[row_index - 1][col_index]
+                # TODO:
+                # In here we should check all the way up
+                # from the adding cell all the way to the top
+                # currently we are just checking the direct upper cell.
                 if not self.horizontal and upper_cell[0] == 1:
                     return False
 

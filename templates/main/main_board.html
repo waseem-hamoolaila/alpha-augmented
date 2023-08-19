@@ -9,6 +9,7 @@
         border-radius: 5px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         margin-top: 10px;
+        background-color: #111111;
     }
     </style>
     <div class="row">
@@ -74,9 +75,8 @@
                            id="horizontal-input">
                     <label class="form-check-label" for="horizontal-input">Horizontal POV</label>
                 </div>
-               
                 <small class="text-secondary">
-                    Pack horizontally or vertically, vertically means the dropping is from the top of the box, 
+                    Pack horizontally or vertically, vertically means the dropping is from the top of the box,
                     horizontally as in shelves.
                 </small>
                 <hr />
@@ -104,19 +104,37 @@
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-12">{% render_packages packages %}</div>
+                <div class="">
+                    <p id="processing-indicator-id"
+                       class="text-primary"
+                       style="display: none">Processing...</p>
+                    <p class="text-danger" id="fitting-errors"></p>
+                </div>
                 <div class="col-md-12">
                     <h4 class="text-center">Your Box</h4>
                     <h4 class="text-secondary text-center mt-3" id="introduction-test-id">
                         Welcome, Please generate a new box and start packing.
                     </h4>
-                    <p id="processing-indicator-id" class="text-primary" style="display: none;"> Processing... </p>
-                    <p class="text-danger" id="fitting-errors"></p>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div>
+                            <div>
+                                <table class="table table-bordered">
+                                    <tbody id="main-box-board-id">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% comment %} <div class="p-5">
+                        <p id="processing-indicator-id" class="text-primary" style="display: none">Processing...</p>
+                        <p class="text-danger" id="fitting-errors"></p>
+                    </div>
                     <div>
                         <table class="table table-bordered">
                             <tbody id="main-box-board-id">
                             </tbody>
                         </table>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
             </div>
         </div>
