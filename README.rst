@@ -1,15 +1,29 @@
-## Packages
+Placing packages visualizer
+==============================
 
-A small project to visualize a fitting algorithm aiming to reduce the 
-wasted space and place the packages inside the created box. 
+A small project that visualize packing algorithm, by allowing you 
+to create custom boxes and fit different shapes into it. 
+
+
+You can view the live demo `here <#https://waseemalpha.pythonanywhere.com/>`_
+
 
 It allows you to:
+-----------------
 
-- Customize the main box by defining the dimensions
+- Customize boxes by defining the dimensions.
 - tweak the behavior of the algorithm by setting (direction - rotation - pov)
 
-## How to install the project locally
 
-* The project built using Django framework, so it follows the same deploying instructions
+Installation locally
+====================
+
 * Clone the repo
-* Create a virtual environment: python > 3.9
+* Create a virtual environment with python > 3.9
+* activate it.
+
+Now you are ready to install the project
+----------------------------------------
+
+* At the root level of the folder you should see a file called **requirements.txt** run `pip install -r requirements.txt`
+
