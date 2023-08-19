@@ -7,8 +7,8 @@
     }
 
     .shape {
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 20px;
         margin: 2px;
     }
 
@@ -19,7 +19,7 @@
 </style>
 <div class="row">
     {% for package in packages %}
-        <div class="col-md-2 col-sm-4 m-2">
+        <div class="col-md-2 col-sm-3 m-2">
             <div class="d-flex flex-column align-items-center package-card"
                  data-id="{{ package.identifier }}">
                 {% for row in package.structure %}
