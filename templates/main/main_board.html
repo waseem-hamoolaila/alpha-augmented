@@ -95,7 +95,7 @@
                            id="rotation-on-input">
                     <label class="form-check-label" for="rotation-on-input">Rotation ON</label>
                 </div>
-                <small class="text-secondary">Rotate the package in 4 positions, 45, 90, 145, 180 degrees to test the fit.</small>
+                <small class="text-secondary">Try to fit the package in different positions.</small>
                 <hr />
             </div>
         </div>
@@ -104,6 +104,7 @@
                 <div class="col-md-12">{% render_packages packages %}</div>
                 <div class="col-md-12">
                     <h4 class="text-center">Your Box</h4>
+                    <h4 class="text-secondary text-center mt-3" id="introduction-test-id">Welcome, Please generate a new box and start packing.</h4>
                     <p class="text-danger" id="fitting-errors"></p>
                     <div>
                         <table class="table table-bordered">
@@ -124,6 +125,8 @@
 
         $("#render-box-btn").click(function() {
             resetValidation()
+
+            $("#introduction-test-id").css("display", "none")
 
             let rowsNum = $("#rows-input-id").val()
             let colsNum = $("#cols-input-id").val()
