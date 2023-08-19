@@ -5,7 +5,7 @@ A small project that visualize packing algorithm, by allowing you
 to create custom boxes and fit different shapes into it. 
 
 
-You can view the live demo `here <#https://waseemalpha.pythonanywhere.com/>`_
+You can view the live demo `here <https://waseemalpha.pythonanywhere.com/>`_
 
 
 It allows you to:
