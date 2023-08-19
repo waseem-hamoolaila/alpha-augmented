@@ -1,5 +1,5 @@
-Placing packages visualizer
-==============================
+Alpha
+=====
 
 A small project that visualize packing algorithm, by allowing you 
 to create custom boxes and fit different shapes into it. 
@@ -12,7 +12,7 @@ It allows you to:
 -----------------
 
 - Customize boxes by defining the dimensions.
-- tweak the behavior of the algorithm by setting (direction - rotation - pov)
+- Tweak the behavior of the algorithm by setting (direction - rotation - pov)
 
 
 Installation locally
@@ -20,7 +20,7 @@ Installation locally
 
 * Clone the repo
 * Create a virtual environment with python > 3.9
-* activate it.
+* Activate it.
 
 After cloning and activating the virtual env
 ---------------------------------------------
