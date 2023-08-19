@@ -5,7 +5,7 @@ A small project that visualize packing algorithm, by allowing you
 to create custom boxes and fit different shapes into it. 
 
 
-You can view the live demo `here <https://waseemalpha.pythonanywhere.com/>`_
+**You can view the live demo** `here <https://waseemalpha.pythonanywhere.com/>`_
 
 
 It allows you to:
@@ -30,6 +30,7 @@ After cloning and activating the virtual env
     > cd alpha-augmented
 
 Then we need to install the requirements:
+*(make sure that you are at the same level as file called **manage.py**)
 
 .. code:: console
 
@@ -48,13 +49,14 @@ Now we should be good to go. It's time to run the server:
     python manage.py runserver
 
 
-.. note:: Now the server should be running and the url would be **127.0.0.1:8000**
+*Now, the server should be running and the url would be 127.0.0.1:8000*
 
 
 Tests
 =====
 
 To run the tests, you need to run
+*(make sure that you are at the same level as file called **manage.py**)
 
 .. code:: console
 
