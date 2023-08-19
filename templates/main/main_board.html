@@ -54,7 +54,7 @@
                     <label class="form-check-label" for="rtl-input">Right to left packing</label>
                 </div>
                 <small class="text-secondary">
-                    Control the direction of packing, weather from right to left or left to right, both will start
+                    Control the direction of packing, whether from right to left or left to right, both will start
                     from the bottom up.
                 </small>
                 <hr />
@@ -149,7 +149,6 @@
         $("#render-box-btn").click(function() {
             resetValidation()
 
-            $("#introduction-test-id").css("display", "none")
             $(this).attr("disabled", true)
 
             let rowsNum = $("#rows-input-id").val()
@@ -168,6 +167,7 @@
                 success: (data) => {
                     render_box(data)
                     uuid = data.uuid
+                    $("#introduction-test-id").css("display", "none")
                     $(this).attr("disabled", false)
                 },
                 error: (error) => {
