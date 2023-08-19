@@ -22,8 +22,27 @@ Installation locally
 * Create a virtual environment with python > 3.9
 * activate it.
 
-Now you are ready to install the project
-----------------------------------------
+After cloning and activating the virtual env
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* At the root level of the folder you should see a file called **requirements.txt** run `pip install -r requirements.txt`
 
+.. code-block:: python
+    > cd alpha
+
+Then we need to install the requirements
+
+.. code-block:: python
+    pip install -r requirements.txt
+
+Then we need to migrate the database
+
+.. code-block:: python
+    python manage.py migrate
+
+Now we should be good to go... it's time to run the server
+
+.. code-block:: python
+    python manage.py runserver
+
+
+Now the server should be running and the url would be **127.0.0.1:8000**
