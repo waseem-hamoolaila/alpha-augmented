@@ -29,8 +29,9 @@ After cloning and activating the virtual env
 
     > cd alpha-augmented
 
-Then we need to install the requirements: |
-*(make sure that you are at the same level as file called **manage.py**) *
+Then we need to install the requirements:
+
+(make sure that you are at the same level as file called **manage.py**)
 
 .. code:: console
 
@@ -55,8 +56,9 @@ Now we should be good to go. It's time to run the server:
 Tests
 =====
 
-To run the tests, you need to run |
-*(make sure that you are at the same level as file called **manage.py**)*
+To run the tests, you need to run
+
+(make sure that you are at the same level as file called **manage.py**)
 
 .. code:: console
 
