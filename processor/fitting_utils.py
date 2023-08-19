@@ -142,11 +142,12 @@ class Box:
         Returns:
             - bool: fitted successfully, and now the Package is occupying space in the box, False otherwise.
         """
-        for package_row in range(package.rows):
-            for package_col in range(package.cols):
+        for package_row in range(package.rows - 1, -1, -1):
+            for package_col in range(package.cols - 1, -1, -1):
                 try:
                     if self.rtl:
-                        if package._structure[package_row][package_col] == 1:
+                        # package.cols - package_col - 1
+                        if package._structure[package_row][package.cols - package_col - 1] == 1:
                             self.matrix[row_index - package_row][col_index - package_col] = (1, package.color)
                     else:
                         if package._structure[package_row][package_col] == 1:
