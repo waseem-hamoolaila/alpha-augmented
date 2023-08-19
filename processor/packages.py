@@ -1,7 +1,6 @@
-"""
-In this file we will proved hard coded packages..
-Only for the ease of demoing.
-"""
+# In this file we will proved hard coded packages..
+# Only for the ease of demoing.
+
 
 from .fitting_utils import Package
 
