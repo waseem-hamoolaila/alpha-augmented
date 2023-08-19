@@ -25,29 +25,25 @@ Installation locally
 After cloning and activating the virtual env
 ---------------------------------------------
 
-.. code-block::
-    :language: console
+.. code:: console
 
     > cd alpha-augmented
 
 Then we need to install the requirements:
 
-.. code-block::
-    :language: console
+.. code:: console
 
     pip install -r requirements.txt
 
 Next, we need to migrate the database:
 
-.. code-block::
-    :language: console
+.. code:: console
 
     python manage.py migrate
 
 Now we should be good to go. It's time to run the server:
 
-.. code-block::
-    :language: console
+.. code:: console
 
     python manage.py runserver
 
