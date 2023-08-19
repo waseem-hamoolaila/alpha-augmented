@@ -12,7 +12,7 @@ packages = [
     Package([[0, 1, 0], [1, 1, 1]], color="#284cb8", identifier=3),
     Package([[1, 1, 1], [0, 0, 1]], color="#966256", identifier=6),
     Package([[1, 1], [0, 1], [0, 1]], color="#ffeb12", identifier=7),
-    Package([[0, 1], [0, 1], [1, 1]], color="#79ff12", identifier=8),
+    Package([[0, 1], [0, 1], [1, 1]], color="#008048", identifier=8),
     Package([[1, 1, 0], [0, 1, 1]], color="#41f4fa", identifier=9),
     Package([[1, 0], [1, 1], [0, 1]], color="#803cb0", identifier=10),
     Package([[1, 1], [0, 1], [0, 1]], color="#b03c82", identifier=11),
