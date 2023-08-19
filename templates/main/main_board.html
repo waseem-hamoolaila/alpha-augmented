@@ -107,6 +107,7 @@
                     <h4 class="text-secondary text-center mt-3" id="introduction-test-id">
                         Welcome, Please generate a new box and start packing.
                     </h4>
+                    <p id="processing-indicator-id" class="text-primary" style="display: none;"> Processing... </p>
                     <p class="text-danger" id="fitting-errors"></p>
                     <div>
                         <table class="table table-bordered">
@@ -129,6 +130,7 @@
             resetValidation()
 
             $("#introduction-test-id").css("display", "none")
+            $(this).attr("disabled", true)
 
             let rowsNum = $("#rows-input-id").val()
             let colsNum = $("#cols-input-id").val()
@@ -146,9 +148,11 @@
                 success: (data) => {
                     render_box(data)
                     uuid = data.uuid
+                    $(this).attr("disabled", false)
                 },
                 error: (error) => {
                     renderValidations(error.responseJSON)
+                    $(this).attr("disabled", false)
                 },
             });
         })
@@ -187,6 +191,8 @@
         }
 
         $(".package-card").on("click", function() {
+
+            $("#processing-indicator-id").css("display", "block")
             
             const rtlValue = $("input[name='rtl']:checked").val();
             const verticalPovValue = $("input[name='vertical-pov']:checked").val();
@@ -211,9 +217,11 @@
                 success: (data) => {
                     render_box(data)
                     fitting_errors(data)
+                    $("#processing-indicator-id").css("display", "none")
                 },
                 error: (error) => {
                     renderValidations(error.responseJSON)
+                    $("#processing-indicator-id").css("display", "none")
                 },
             });
 
