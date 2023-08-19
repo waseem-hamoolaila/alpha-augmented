@@ -48,4 +48,14 @@ Now we should be good to go. It's time to run the server:
     python manage.py runserver
 
 
-Now the server should be running and the url would be **127.0.0.1:8000**
+.. note:: Now the server should be running and the url would be **127.0.0.1:8000**
+
+
+Tests
+=====
+
+To run the tests, you need to run
+
+.. code:: console
+
+    python manage.py test
