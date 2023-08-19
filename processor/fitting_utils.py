@@ -83,8 +83,8 @@ class Box:
         Construct the main Box with initial values.
 
         Args:
-            - rows (int): number of rows in the box
-            - cols (int): number of cols in the box
+            - rows (int): number of rows in the box, 5 by default
+            - cols (int): number of cols in the box, 5 by default
             - rtl (bool): packing the packages right to left, left to right by default
             - horizontal (bool): horizontal point of view (deal with the box as shelves), vertical by default.
             - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
