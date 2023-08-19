@@ -124,10 +124,6 @@ class Box:
                 if row_index - package_row < 0:
                     return False
 
-                # upper_cell = self.matrix[row_index - 1][col_index]
-                # if not self.horizontal and upper_cell[0] == 1:
-                #     return False
-
                 if not self._clear_all_the_way_up(row_index=row_index, col_index=col_index) and not self.horizontal:
                     return False
 
