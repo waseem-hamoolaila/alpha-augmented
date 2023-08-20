@@ -54,22 +54,30 @@ class Package:
         """
         Rotate the package 45 degree clock wise.
         """
+        # rotated = [[self.structure[row][col] for row in range(len(self.structure) - 1, -1, -1)] for col in range(len(self.structure[0]))]
 
-        rotated_structure = []
-        for col in range(len(self.structure[0])):
-            new_row = []
-            for row in range(len(self.structure)):
-                new_row = new_row + [self.structure[row][col]]
-            rotated_structure.append(new_row)
+        # Calculate the dimensions of the matrix
+        rows = len(self.structure)
+        cols = len(self.structure[0])
+
+        # Create a new matrix to store the rotated values
+        rotated_matrix = [[0] * rows for _ in range(cols)]
+
+        # Perform the rotation
+        for i in range(rows):
+            for j in range(cols):
+                rotated_matrix[j][rows - 1 - i] = self.structure[i][j]
 
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
-        self.structure = rotated_structure
+        self.structure = rotated_matrix
 
     def reset(self):
         """
         Used to reset the package after rotation, bring back its original shape
         """
         self.structure = self._original_structure
+        self.cols = len(self.structure[0])
+        self.rows = len(self.structure)
 
     def console_print(self):
         """
@@ -229,7 +237,8 @@ class Box:
                         )
 
                         if self.rotation:
-                            package.reset()
+                            # package.reset()
+                            pass
 
                         return True
 
@@ -333,3 +342,15 @@ class Box:
         for row in self.matrix:
             row_str = " ".join(str(cell[0]) for cell in row)
             print(row_str)
+
+
+def main():
+    box = Box(4, 4, rotation=True)
+    p = Package([[1, 1, 1], [1, 0, 0]])
+    p1 = Package([[0, 0, 1], [1, 1, 1]])
+
+    # p1.console_print()
+
+
+if __name__ == "__main__":
+    main()
