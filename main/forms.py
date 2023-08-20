@@ -1,5 +1,6 @@
 from typing import Any, Dict
 from django import forms
+import ast
 
 from .models import Session
 from processor.helpers import get_package_from_list
@@ -36,29 +37,36 @@ class RenderBoxForm(forms.Form):
 
 class PlacePackageForm(forms.Form):
     uuid = forms.UUIDField()
-    package_id = forms.IntegerField()
+    # package_id = forms.IntegerField()
+    packages_ids = forms.CharField()
     rotation = forms.BooleanField(required=False)
     rtl = forms.BooleanField(required=False)
     horizontal = forms.BooleanField(required=False)
 
     session = None
+    packages = None
 
     def clean(self):
         cleaned_data = self.cleaned_data
 
         uuid = cleaned_data.get("uuid")
-        package_id = cleaned_data.get("package_id")
+        packages_ids = cleaned_data.get("packages_ids")
 
         if not uuid:
             raise forms.ValidationError("UUID is required, Please create a box and try again.")
+
+        if not cleaned_data.get("packages_ids"):
+            raise forms.ValidationError("You have to select packages")
 
         try:
             self.session = Session.objects.get(uuid=uuid)
         except:
             raise forms.ValidationError("UUID is not valid.")
 
-        if not get_package_from_list(identifier=package_id):
-            raise forms.ValidationError("Package id is not valid.")
+        try:
+            self.packages = ast.literal_eval(packages_ids)
+        except (ValueError, SyntaxError):
+            forms.ValidationError("The list passed is not valid, please refresh and try again.")
 
     def place(self):
         rotation = self.cleaned_data.get("rotation")
@@ -66,7 +74,7 @@ class PlacePackageForm(forms.Form):
         horizontal = self.cleaned_data.get("horizontal")
 
         result, new_matrix = self.session.place_package(
-            self.cleaned_data.get("package_id"),
+            self.packages,
             rotation=rotation,
             rtl=rtl,
             horizontal=horizontal,

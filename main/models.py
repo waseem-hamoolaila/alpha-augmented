@@ -21,13 +21,28 @@ class Session(models.Model):
         box = Box(rows=rows, cols=cols)
         return cls.objects.create(box_matrix=box.matrix)
 
-    def place_package(self, package_identifier, rotation=False, rtl=False, horizontal=False):
-        # we can find a way to prevent passing the rows / cols in case of instance is passed
+    def place_package(self, package_identifiers, rotation=False, rtl=False, horizontal=False):
         box = Box(instance=self.box_matrix, rotation=rotation, rtl=rtl, horizontal=horizontal)
-        package = get_package_from_list(identifier=package_identifier)
-        result = box.place(package)
+        # package = get_package_from_list(identifier=package_identifier)
+        packages = self.get_packages(packages_ids=package_identifiers)
+        # result = box.place(package)
+        result = box.bulk_insertion(packages)
         self.box_matrix = box.matrix
         self.save()
         self.refresh_from_db()
 
         return result, self.box_matrix
+    
+    
+    def get_packages(self, packages_ids):
+        """
+        Returns list of packages
+        
+        Args:
+            - packages_ids (list): list of packages ids
+            
+        Returns:
+            - Packages (list): List of packages instances
+        """
+        return [get_package_from_list(package_id) for package_id in packages_ids]
+    

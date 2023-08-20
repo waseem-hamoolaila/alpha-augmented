@@ -190,7 +190,7 @@ class Box:
 
     def place(self, package):
         """
-        Place the package inside the box.
+        Place a package inside the box.
 
         Args:
             - package (Package): the Package that I want to fit in to the box
@@ -223,7 +223,7 @@ class Box:
 
     def bulk_insertion(self, list_of_packages):
         """
-        Insert bulk of Packages at once to the box
+        Insert list of packages at once to the box
 
         Args:
             - list_of_Packages (Package): list of Packages that will be inserted (ordered)

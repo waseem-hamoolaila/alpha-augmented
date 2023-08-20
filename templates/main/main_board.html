@@ -103,7 +103,18 @@
         </div>
         <div class="col-md-9">
             <div class="row">
-                <div class="col-md-12">{% render_packages packages %}</div>
+                <div class="col-md-12">
+                    <p class="text-secondary">Available packages</p>
+                    {% render_packages packages %}
+                </div>
+                <div class="col-md-12">
+                    <p class="text-secondary">Selected packages</p>
+                    <small class="text-info" id="reset-link-id" style="cursor: pointer;">Click to reset</small>
+                    <div class="row" id="selected-packages-container"></div>
+                </div>
+                <button class="btn btn-info btn-sm mt-2 mb-2"
+                        style="display: none"
+                        id="submit-selected-btn">Fit package(s)</button>
                 <div class="">
                     <p id="processing-indicator-id"
                        class="text-primary"
@@ -212,7 +223,13 @@
 
         $(".package-card").on("click", function() {
 
+            move_package_to_selected($(this))
+            $("#submit-selected-btn").css("display", "block")
+
+            /* 
+
             $("#processing-indicator-id").css("display", "block")
+
             
             const rtlValue = $("input[name='rtl']:checked").val();
             const horizontalPovValue = $("input[name='horizontal-pov']:checked").val();
@@ -243,7 +260,7 @@
                     renderValidations(error.responseJSON)
                     $("#processing-indicator-id").css("display", "none")
                 },
-            });
+            }); */
 
         })
 
@@ -256,6 +273,60 @@
                 $fitting_errors_el.text("This package cannot fit into the box.")
             }
         }
+
+        let packages_ids = []
+
+        function move_package_to_selected(package_item) {
+            let $selected_container = $("#selected-packages-container")
+            let clone_element = package_item.clone()
+            $selected_container.append(clone_element)
+            packages_ids.push(package_item.data("id"))
+        }
+
+        function reset_selected_container() {
+            $("#selected-packages-container").empty()
+            packages_ids = []
+            $("#submit-selected-btn").css("display", "none")
+        }
+
+        $("#reset-link-id").on("click", function() {
+            reset_selected_container()
+        })
+
+        $("#submit-selected-btn").on("click", function() {
+
+            $("#processing-indicator-id").css("display", "block")
+
+            
+            const rtlValue = $("input[name='rtl']:checked").val();
+            const horizontalPovValue = $("input[name='horizontal-pov']:checked").val();
+            const rotationValue = $("input[name='rotation']:checked").val();
+            let payload = {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                uuid: uuid,
+                rtl: rtlValue,
+                packages_ids: JSON.stringify(packages_ids),
+                horizontal: horizontalPovValue,
+                rotation: rotationValue,
+            }
+
+            $.ajax({
+                url: "{% url 'main:place-package' %}",
+                method: "post",
+                dataType: "json",
+                data: payload,
+                success: (data) => {
+                    render_box(data)
+                    fitting_errors(data)
+                    $("#processing-indicator-id").css("display", "none")
+                },
+                error: (error) => {
+                    renderValidations(error.responseJSON)
+                    $("#processing-indicator-id").css("display", "none")
+                },
+            });
+
+        })
     })
 
     </script>
