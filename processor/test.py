@@ -44,3 +44,15 @@ class TestFittingEngine(test.TestCase):
         self.assertFalse(b.place(p))  # should not fit
         p.rotate()
         self.assertTrue(b.place(p))  # should fit after the rotation
+
+    def test_fitting_decision(self):
+        self.box.bulk_packing([self.package, self.package2])
+        self.assertIsNotNone(self.box.fitting_decision())
+        self.assertIsNotNone(self.box.fitting_percentage())
+        
+    def test_reset_package_shape(self):
+        self.package.rotate()
+        self.assertEqual(self.package.structure, [[0, 1], [0, 1], [1, 1]])
+        self.package.reset()
+        self.assertNotEqual(self.package.structure, [[0, 1], [0, 1], [1, 1]])
+        self.assertEqual(self.package.structure, [[1, 1, 1], [0, 0, 1]])
