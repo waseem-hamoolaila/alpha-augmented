@@ -56,10 +56,10 @@ class Package:
         """
 
         rotated_structure = []
-        for col in range(len(self._structure[0])):
+        for col in range(len(self.structure[0])):
             new_row = []
-            for row in range(len(self._structure)):
-                new_row = new_row + [self._structure[row][col]]
+            for row in range(len(self.structure)):
+                new_row = new_row + [self.structure[row][col]]
             rotated_structure.append(new_row)
 
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
