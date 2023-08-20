@@ -76,8 +76,8 @@
                     <label class="form-check-label" for="horizontal-input">Horizontal POV</label>
                 </div>
                 <small class="text-secondary">
-                    Pack horizontally or vertically, vertically means the dropping is from the top of the box,
-                    horizontally as in shelves.
+                    Pack horizontally or vertically, vertically means the dropping is from the top of the box 
+                    just as in a tetris board, horizontally as you packing in one layer box.
                 </small>
                 <hr />
                 <div class="form-check">
@@ -109,7 +109,7 @@
                 </div>
                 <div class="col-md-12">
                     <p class="text-secondary">Selected packages</p>
-                    <small class="text-info" id="reset-link-id" style="cursor: pointer;">Click to reset</small>
+                    <small class="text-info" id="reset-link-id" style="cursor: pointer; display: none;">Click to reset</small>
                     <div class="row" id="selected-packages-container"></div>
                 </div>
                 <button class="btn btn-info btn-sm mt-2 mb-2"
@@ -225,42 +225,7 @@
 
             move_package_to_selected($(this))
             $("#submit-selected-btn").css("display", "block")
-
-            /* 
-
-            $("#processing-indicator-id").css("display", "block")
-
-            
-            const rtlValue = $("input[name='rtl']:checked").val();
-            const horizontalPovValue = $("input[name='horizontal-pov']:checked").val();
-            const rotationValue = $("input[name='rotation']:checked").val();
-
-            let package_id = $(this).data("id")
-
-            let payload = {
-                csrfmiddlewaretoken: "{{ csrf_token }}",
-                uuid: uuid,
-                package_id: package_id,
-                rtl: rtlValue,
-                horizontal: horizontalPovValue,
-                rotation: rotationValue,
-            }
-
-            $.ajax({
-                url: "{% url 'main:place-package' %}",
-                method: "post",
-                dataType: "json",
-                data: payload,
-                success: (data) => {
-                    render_box(data)
-                    fitting_errors(data)
-                    $("#processing-indicator-id").css("display", "none")
-                },
-                error: (error) => {
-                    renderValidations(error.responseJSON)
-                    $("#processing-indicator-id").css("display", "none")
-                },
-            }); */
+            $("#reset-link-id").css("display", "block")
 
         })
 
@@ -287,6 +252,7 @@
             $("#selected-packages-container").empty()
             packages_ids = []
             $("#submit-selected-btn").css("display", "none")
+            $("#reset-link-id").css("display", "none")
         }
 
         $("#reset-link-id").on("click", function() {
@@ -324,6 +290,7 @@
                     renderValidations(error.responseJSON)
                     $("#processing-indicator-id").css("display", "none")
                     reset_selected_container()
+                    
                 },
             });
 

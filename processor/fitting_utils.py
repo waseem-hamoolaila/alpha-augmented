@@ -29,6 +29,7 @@ class Package:
         self.color = color
         self.first_is_bottom = first_is_bottom
         self.identifier = identifier
+        self._original_structure = structure
 
     def _validate_structure(self, structure):
         structure_type_message = "%s is not a valid structure, it should be two dimensional list" % structure
@@ -56,6 +57,12 @@ class Package:
         rotated = [[self.structure[self.rows - row - 1][col] for row in range(self.rows)] for col in range(self.cols)]
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
         self.structure = rotated
+
+    def reset(self):
+        """
+        Used to reset the package after rotation, bring back its original shape
+        """
+        self.structure = self._original_structure
 
     def console_print(self):
         """
@@ -124,6 +131,7 @@ class Box:
                 if row_index - package_row < 0:
                     return False
 
+                # in case of vertically dropping, like in tetris board.
                 if not self._clear_all_the_way_up(row_index=row_index, col_index=col_index) and not self.horizontal:
                     return False
 
@@ -132,7 +140,7 @@ class Box:
                         box_cell = self.matrix[row_index - package_row][col_index - package_col]
                         package_cell = package._structure[package_row][package.cols - package_col - 1]
                     else:
-                        box_cell = self.matrix[row_index - package_row][col_index + package_col]
+                        box_cell = self.matrix[row_index - package_row - 1][col_index + package_col]
                         package_cell = package._structure[package_row][package_col]
 
                     if box_cell[0] == 1 and package_cell == 1:
@@ -212,6 +220,9 @@ class Box:
                         self._fit_package_into_the_box(
                             package=package, row_index=current_row_index, col_index=current_col_index
                         )
+                        if self.rotation:
+                            package.reset()
+
                         return True
 
                     if self.rotation:
@@ -232,12 +243,14 @@ class Box:
             - bool: True is inserted successfully, False otherwise.
         """
 
+        failed_to_insert = 0
+
         for package in list_of_packages:
             result = self.place(package)
             if not result:
-                return False
+                failed_to_insert += 1
 
-        return True
+        return True, failed_to_insert
 
     def console_print(self):
         """
