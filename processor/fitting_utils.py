@@ -293,19 +293,19 @@ class Box:
         percentage = self.fitting_percentage()
 
         if percentage >= 0 and percentage <= 25:
-            return "Occupation is %s%% - Very bad, the box is way too big." % percentage
+            return "Used area is %s%% - Very bad, the box is way too big." % percentage
 
         if percentage > 25 and percentage <= 50:
-            return "Occupation is %s%% - Bad, the box is kind of big." % percentage
+            return "Used area is %s%% - Bad, the box is kind of big." % percentage
 
         if percentage > 50 and percentage <= 75:
-            return "Occupation is %s%% - Medium, the box is slightly big." % percentage
+            return "Used area is %s%% - Medium, the box is slightly big." % percentage
 
         if percentage > 75 and percentage <= 90:
-            return "Occupation is %s%% - Good, the box is a good fit." % percentage
+            return "Used area is %s%% - Good, the box is a good fit." % percentage
 
         if percentage > 90 and percentage <= 100:
-            return "Occupation is %s%% - Perfect, the box is a perfect fit." % percentage
+            return "Used area is %s%% - Perfect, the box is a perfect fit." % percentage
 
     def compare_box(self, box):
         """
