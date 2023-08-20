@@ -109,7 +109,9 @@
                     {% render_packages packages %}
                 </div>
                 <div class="col-md-12">
-                    <p class="text-secondary mt-3 mb-3">Selected packages</p>
+                    <p class="text-secondary mt-3 mb-3"
+                       id="selected-packages-id"
+                       style="display: none">Selected packages</p>
                     <small class="text-info"
                            id="reset-link-id"
                            style="cursor: pointer;
@@ -278,6 +280,7 @@
             packages_ids = []
             $("#submit-selected-btn").css("display", "none")
             $("#reset-link-id").css("display", "none")
+            $("#selected-packages-id").css("display", "none")
         }
 
         $("#reset-link-id").on("click", function() {
@@ -287,6 +290,7 @@
         $("#submit-selected-btn").on("click", function() {
 
             $("#processing-indicator-id").css("display", "block")
+            $("#selected-packages-id").css("display", "block")
             
             const rtlValue = $("input[name='rtl']:checked").val();
             const horizontalPovValue = $("input[name='horizontal-pov']:checked").val();
