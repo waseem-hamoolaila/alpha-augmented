@@ -63,3 +63,9 @@ To run the tests, you need to run
 .. code:: console
 
     python manage.py test
+
+
+NOTE
+====
+
+The logic part in the code is included in  `here <https://github.com/waseem-hamoolaila/alpha-augmented/tree/main/processor/>`_
