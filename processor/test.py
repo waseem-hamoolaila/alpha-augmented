@@ -49,7 +49,7 @@ class TestFittingEngine(test.TestCase):
         self.box.bulk_packing([self.package, self.package2])
         self.assertIsNotNone(self.box.fitting_decision())
         self.assertIsNotNone(self.box.fitting_percentage())
-        
+
     def test_reset_package_shape(self):
         self.package.rotate()
         self.assertEqual(self.package.structure, [[0, 1], [0, 1], [1, 1]])
