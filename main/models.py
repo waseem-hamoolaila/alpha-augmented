@@ -26,12 +26,18 @@ class Session(models.Model):
         # package = get_package_from_list(identifier=package_identifier)
         packages = self.get_packages(packages_ids=package_identifiers)
         # result = box.place(package)
-        result = box.bulk_insertion(packages)
+        result, number_of_failed = box.bulk_insertion(packages)
         self.box_matrix = box.matrix
         self.save()
         self.refresh_from_db()
+        
+        ctx = {
+            "result": result, 
+            "box_matrix": self.box_matrix, 
+            "failed_to_fit": number_of_failed,
+        }
 
-        return result, self.box_matrix
+        return ctx
     
     
     def get_packages(self, packages_ids):

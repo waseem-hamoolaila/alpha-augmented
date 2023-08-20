@@ -73,17 +73,12 @@ class PlacePackageForm(forms.Form):
         rtl = self.cleaned_data.get("rtl")
         horizontal = self.cleaned_data.get("horizontal")
 
-        result, new_matrix = self.session.place_package(
+        ctx = self.session.place_package(
             self.packages,
             rotation=rotation,
             rtl=rtl,
             horizontal=horizontal,
         )
 
-        ctx = {
-            "result": result,
-            "box_matrix": new_matrix,
-            "uuid": self.cleaned_data.get("uuid"),
-        }
 
         return ctx

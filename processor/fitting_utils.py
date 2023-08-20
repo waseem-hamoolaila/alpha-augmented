@@ -140,7 +140,7 @@ class Box:
                         box_cell = self.matrix[row_index - package_row][col_index - package_col]
                         package_cell = package._structure[package_row][package.cols - package_col - 1]
                     else:
-                        box_cell = self.matrix[row_index - package_row - 1][col_index + package_col]
+                        box_cell = self.matrix[row_index - package_row][col_index + package_col]
                         package_cell = package._structure[package_row][package_col]
 
                     if box_cell[0] == 1 and package_cell == 1:
@@ -251,6 +251,9 @@ class Box:
                 failed_to_insert += 1
 
         return True, failed_to_insert
+    
+    def loss(self):
+        pass
 
     def console_print(self):
         """
