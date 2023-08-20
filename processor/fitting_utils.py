@@ -329,15 +329,3 @@ class Box:
         for row in self.matrix:
             row_str = " ".join(str(cell[0]) for cell in row)
             print(row_str)
-
-
-def main():
-    box = Box(4, 4, rotation=True)
-    p = Package([[1, 1, 1], [1, 0, 0]])
-    p1 = Package([[0, 0, 1], [1, 1, 1]])
-
-    # p1.console_print()
-
-
-if __name__ == "__main__":
-    main()
