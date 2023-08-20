@@ -7,6 +7,12 @@ to create custom boxes and fit different shapes into it.
 
 **You can view the live demo** `here <https://waseemalpha.pythonanywhere.com/>`_
 
+.. image:: https://github.com/waseem-hamoolaila/alpha-augmented/blob/main/demo_image/demo_alpha.png?raw=true
+    :alt: Alpha demo
+    :width: 300
+    :height: 200
+    :scale: 50%
+    :align: center
 
 It allows you to:
 -----------------
