@@ -28,25 +28,24 @@ class Session(models.Model):
         self.box_matrix = box.matrix
         self.save()
         self.refresh_from_db()
-        
+
         ctx = {
-            "result": "Success" if result else "Failed", 
-            "box_matrix": self.box_matrix, 
+            "result": "Success" if result else "Failed",
+            "box_matrix": self.box_matrix,
             "failed_to_fit": number_of_failed,
+            "fitting_decision": box.fitting_decision(),
         }
 
         return ctx
-    
-    
+
     def get_packages(self, packages_ids):
         """
         Returns list of packages
-        
+
         Args:
             - packages_ids (list): list of packages ids
-            
+
         Returns:
             - Packages (list): List of packages instances
         """
         return [get_package_from_list(package_id) for package_id in packages_ids]
-    

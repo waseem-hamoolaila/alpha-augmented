@@ -120,7 +120,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="input-box">
-                        <small class="text-secondary">Report from the last action:</small>
+                        <small class="text-info">Report from the last action:</small>
                         <div>
                             <small class="text-secondary">
                                 Result: <span id="result-span">-</span>
@@ -129,6 +129,10 @@
                             <small class="text-secondary">
                                 Failed packages: <span id="failed-packages-span">-</span>
                             </small>
+
+                            <p class="text-success mt-5">
+                                Conclusion: <br /> <strong id="conclusion-span">-</strong>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -219,6 +223,7 @@
 
             $("#result-span").text(data.result)
             $("#failed-packages-span").text(data.failed_to_fit)
+            $("#conclusion-span").text(data.fitting_decision)
 
         }
 

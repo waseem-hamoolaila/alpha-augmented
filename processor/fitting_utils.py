@@ -273,6 +273,36 @@ class Box:
 
         return percentage
 
+    def fitting_decision(self):
+        """
+        Returns a text representation of the fitting percentage
+        0 - 25%: very bad fitting - the box is way too big
+        25 - 50: bad fitting - the box is kind of big.
+        50 - 75: medium fitting - the box is slightly big.
+        75 - 90: good fitting - Good fitting
+        90 - 100: perfect - Perfect fitting
+
+        Returns:
+            - decision (str): text representation of the percentage
+        """
+
+        percentage = self.fitting_percentage()
+
+        if percentage >= 0 and percentage <= 25:
+            return "Occupation is %s%% - Very bad, the box is way too big." % percentage
+
+        if percentage > 25 and percentage <= 50:
+            return "Occupation is %s%% - Bad, the box is kind of big." % percentage
+
+        if percentage > 50 and percentage <= 75:
+            return "Occupation is %s%% - Medium, the box is slightly big." % percentage
+
+        if percentage > 75 and percentage <= 90:
+            return "Occupation is %s%% - Good, the box is a good fit." % percentage
+
+        if percentage > 75 and percentage <= 90:
+            return "Occupation is %s%% - Perfect, the box is a perfect fit." % percentage
+
     def console_print(self):
         """
         String representation of the current box.
