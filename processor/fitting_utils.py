@@ -185,7 +185,6 @@ class Box:
             for package_col in range(package.cols - 1, -1, -1):
                 try:
                     if self.rtl:
-                        # package.cols - package_col - 1
                         if package._structure[package_row][package.cols - package_col - 1] == 1:
                             self.matrix[row_index - package_row][col_index - package_col] = (1, package.color)
                     else:
@@ -245,16 +244,34 @@ class Box:
         """
 
         failed_to_insert = 0
+        all_placed_successfully = True
 
         for package in list_of_packages:
             result = self.place(package)
             if not result:
                 failed_to_insert += 1
+                all_placed_successfully = False
 
-        return True, failed_to_insert
+        return all_placed_successfully, failed_to_insert
 
-    def loss(self):
-        pass
+    def fitting_percentage(self):
+        """
+        Calculate the percentage of occupation
+
+        Returns:
+            - number (int): percentage of occupation
+        """
+        space = self.rows * self.cols  # calculate the area
+        number_of_occupied_cells = 0
+
+        for rows in range(self.rows):
+            for cols in range(self.cols):
+                if self.matrix[rows][cols][0] == 1:
+                    number_of_occupied_cells += 1
+
+        percentage = (number_of_occupied_cells / space) * 100
+
+        return percentage
 
     def console_print(self):
         """

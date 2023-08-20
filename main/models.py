@@ -23,9 +23,7 @@ class Session(models.Model):
 
     def place_package(self, package_identifiers, rotation=False, rtl=False, horizontal=False):
         box = Box(instance=self.box_matrix, rotation=rotation, rtl=rtl, horizontal=horizontal)
-        # package = get_package_from_list(identifier=package_identifier)
         packages = self.get_packages(packages_ids=package_identifiers)
-        # result = box.place(package)
         result, number_of_failed = box.bulk_insertion(packages)
         self.box_matrix = box.matrix
         self.save()
