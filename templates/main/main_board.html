@@ -63,7 +63,6 @@
                            type="radio"
                            name="horizontal-pov"
                            value="false"
-                           checked
                            id="vertical-input">
                     <label class="form-check-label" for="vertical-input">Vertical POV</label>
                 </div>
@@ -72,6 +71,7 @@
                            type="radio"
                            name="horizontal-pov"
                            value="true"
+                           checked
                            id="horizontal-input">
                     <label class="form-check-label" for="horizontal-input">Horizontal POV</label>
                 </div>
@@ -296,7 +296,6 @@
         $("#submit-selected-btn").on("click", function() {
 
             $("#processing-indicator-id").css("display", "block")
-
             
             const rtlValue = $("input[name='rtl']:checked").val();
             const horizontalPovValue = $("input[name='horizontal-pov']:checked").val();
@@ -319,10 +318,12 @@
                     render_box(data)
                     fitting_errors(data)
                     $("#processing-indicator-id").css("display", "none")
+                    reset_selected_container()
                 },
                 error: (error) => {
                     renderValidations(error.responseJSON)
                     $("#processing-indicator-id").css("display", "none")
+                    reset_selected_container()
                 },
             });
 
