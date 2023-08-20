@@ -220,6 +220,7 @@ class Box:
                         self._fit_package_into_the_box(
                             package=package, row_index=current_row_index, col_index=current_col_index
                         )
+
                         if self.rotation:
                             package.reset()
 
@@ -251,7 +252,7 @@ class Box:
                 failed_to_insert += 1
 
         return True, failed_to_insert
-    
+
     def loss(self):
         pass
 

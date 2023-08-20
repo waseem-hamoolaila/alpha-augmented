@@ -76,7 +76,7 @@
                     <label class="form-check-label" for="horizontal-input">Horizontal POV</label>
                 </div>
                 <small class="text-secondary">
-                    Pack horizontally or vertically, vertically means the dropping is from the top of the box 
+                    Pack horizontally or vertically, vertically means the dropping is from the top of the box
                     just as in a tetris board, horizontally as you packing in one layer box.
                 </small>
                 <hr />
@@ -101,7 +101,7 @@
                 <hr />
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-7">
             <div class="row">
                 <div class="col-md-12">
                     <p class="text-secondary">Available packages</p>
@@ -109,19 +109,30 @@
                 </div>
                 <div class="col-md-12">
                     <p class="text-secondary">Selected packages</p>
-                    <small class="text-info" id="reset-link-id" style="cursor: pointer; display: none;">Click to reset</small>
+                    <small class="text-info"
+                           id="reset-link-id"
+                           style="cursor: pointer;
+                                  display: none">Click to reset</small>
                     <div class="row" id="selected-packages-container"></div>
+                    <button class="btn btn-info btn-sm mt-2 mb-2"
+                            style="display: none"
+                            id="submit-selected-btn">Fit package(s)</button>
                 </div>
-                <button class="btn btn-info btn-sm mt-2 mb-2"
-                        style="display: none"
-                        id="submit-selected-btn">Fit package(s)</button>
-                <div class="">
-                    <p id="processing-indicator-id"
-                       class="text-primary"
-                       style="display: none">Processing...</p>
-                    <p class="text-danger" id="fitting-errors"></p>
+                <div class="col-md-3">
+                    <div class="input-box">
+                        <small class="text-secondary">Report back</small>
+                        <div>
+                            <small class="text-secondary">
+                                Result: <span id="result-span">-</span>
+                            </small>
+                            <br />
+                            <small class="text-secondary">
+                                Failed packages: <span id="failed-packages-span">-</span>
+                            </small>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <h4 class="text-center">Your Box</h4>
                     <h4 class="text-secondary text-center mt-3" id="introduction-test-id">
                         Welcome, Please generate a new box and start packing.
@@ -205,6 +216,10 @@
                 }
                 $box_container.append(rowElement)
             }
+
+            $("#result-span").text(data.result)
+            $("#failed-packages-span").text(data.failed_to_fit)
+
         }
 
 

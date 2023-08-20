@@ -32,7 +32,7 @@ class Session(models.Model):
         self.refresh_from_db()
         
         ctx = {
-            "result": result, 
+            "result": "Success" if result else "Failed", 
             "box_matrix": self.box_matrix, 
             "failed_to_fit": number_of_failed,
         }
