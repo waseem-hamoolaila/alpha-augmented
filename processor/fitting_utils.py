@@ -54,7 +54,10 @@ class Package:
         """
         Rotate the package 45 degree clock wise.
         """
-        rotated = [[self.structure[row][col] for row in range(len(self.structure) - 1, -1, -1)] for col in range(len(self.structure[0]))]
+        rotated = [
+            [self.structure[row][col] for row in range(len(self.structure) - 1, -1, -1)]
+            for col in range(len(self.structure[0]))
+        ]
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
         self.structure = rotated
 
