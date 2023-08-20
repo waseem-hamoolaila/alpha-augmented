@@ -105,6 +105,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <p class="text-secondary">Available packages</p>
+                    <small class="text-secondary">Click on your desired package to select</small>
                     {% render_packages packages %}
                 </div>
                 <div class="col-md-12">
@@ -122,6 +123,7 @@
                     <div class="input-box">
                         <small class="text-info">Report from the last action:</small>
                         <div>
+                            <p id="processing-indicator-id" class="text-info" style="display: none">Processing...</p>
                             <small class="text-secondary">
                                 Result: <span id="result-span">-</span>
                             </small>
@@ -129,9 +131,10 @@
                             <small class="text-secondary">
                                 Failed packages: <span id="failed-packages-span">-</span>
                             </small>
-
                             <p class="text-success mt-5">
-                                Conclusion: <br /> <strong id="conclusion-span">-</strong>
+                                Conclusion:
+                                <br />
+                                <strong id="conclusion-span">-</strong>
                             </p>
                         </div>
                     </div>
