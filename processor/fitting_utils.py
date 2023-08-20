@@ -272,7 +272,7 @@ class Box:
 
         percentage = (number_of_occupied_cells / space) * 100
 
-        return percentage
+        return round(percentage, 2)
 
     def fitting_decision(self):
         """
