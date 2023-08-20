@@ -22,7 +22,7 @@ class Session(models.Model):
         return cls.objects.create(box_grid=box.grid)
 
     def place_package(self, package_identifiers, rotation=False, rtl=False, horizontal=False):
-        box = Box(instance=self.box_grid, rotation=rotation, rtl=rtl, horizontal=horizontal)
+        box = Box(existing_grid=self.box_grid, rotation=rotation, rtl=rtl, horizontal=horizontal)
         packages = self.get_packages(packages_ids=package_identifiers)
         result, number_of_failed = box.bulk_packing(packages)
         self.box_grid = box.grid

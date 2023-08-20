@@ -83,7 +83,7 @@ class Box:
         self,
         rows=5,
         cols=5,
-        instance=None,
+        existing_grid=None,
         rtl=False,
         horizontal=False,
         rotation=False,
@@ -94,14 +94,14 @@ class Box:
         Args:
             - rows (int): number of rows in the box, 5 by default
             - cols (int): number of cols in the box, 5 by default
-            - instance (list): Optional, if you have any updated grid, it will be used as it is passed.
+            - existing_grid (list): Optional, if you have any updated grid, it will be used as it is passed.
             - rtl (bool): packing the packages right to left, left to right by default
             - horizontal (bool): horizontal point of view (deal with the box as shelves), vertical by default.
             - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
         """
-        self.rows = rows if not instance else len(instance)
-        self.cols = cols if not instance else len(instance[0])
-        self.grid = [[(0, "") for _ in range(cols)] for _ in range(rows)] if not instance else instance
+        self.rows = rows if not existing_grid else len(existing_grid)
+        self.cols = cols if not existing_grid else len(existing_grid[0])
+        self.grid = [[(0, "") for _ in range(cols)] for _ in range(rows)] if not existing_grid else existing_grid
         self.rtl = rtl
         self.horizontal = horizontal
         self.rotation = rotation
@@ -312,7 +312,7 @@ class Box:
         Allows you to compare the score your current box state with any other box
 
         Args:
-            - box: any Box instance
+            - box: any Box
 
         Returns:
             - bool: True if the current box is have higher score than the passed one, False otherwise
