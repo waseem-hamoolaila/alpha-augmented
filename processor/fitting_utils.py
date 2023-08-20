@@ -54,22 +54,9 @@ class Package:
         """
         Rotate the package 45 degree clock wise.
         """
-        # rotated = [[self.structure[row][col] for row in range(len(self.structure) - 1, -1, -1)] for col in range(len(self.structure[0]))]
-
-        # Calculate the dimensions of the matrix
-        rows = len(self.structure)
-        cols = len(self.structure[0])
-
-        # Create a new matrix to store the rotated values
-        rotated_matrix = [[0] * rows for _ in range(cols)]
-
-        # Perform the rotation
-        for i in range(rows):
-            for j in range(cols):
-                rotated_matrix[j][rows - 1 - i] = self.structure[i][j]
-
+        rotated = [[self.structure[row][col] for row in range(len(self.structure) - 1, -1, -1)] for col in range(len(self.structure[0]))]
         self.rows, self.cols = self.cols, self.rows  # switch cols and rows
-        self.structure = rotated_matrix
+        self.structure = rotated
 
     def reset(self):
         """
