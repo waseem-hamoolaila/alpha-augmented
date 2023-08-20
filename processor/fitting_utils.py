@@ -17,7 +17,7 @@ class Package:
             - structure (list): The desired shape for the Package Ex: [[1, 1], [1, 0]]
             - color (char): Optional if you need to color the package.
             - first_is_bottom (bool): Optional if we want to consider the structure bottom up: the first passed row is the bottom,
-                                by default it is up-bottom, the first row passed will be the bottom one in the package representation.
+                                by default it is up-bottom, the first row passed will be the higher one in the package representation.
             - identifier (any): Optional, mark the package with a specific identifier and user it as needed.
         """
 
@@ -92,6 +92,7 @@ class Box:
         Args:
             - rows (int): number of rows in the box, 5 by default
             - cols (int): number of cols in the box, 5 by default
+            - instance (list): Optional, if you have any updated matrix, it will be used as it is passed.
             - rtl (bool): packing the packages right to left, left to right by default
             - horizontal (bool): horizontal point of view (deal with the box as shelves), vertical by default.
             - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
@@ -232,7 +233,7 @@ class Box:
 
         return False  # the Package cannot be fitted.
 
-    def bulk_insertion(self, list_of_packages):
+    def bulk_packing(self, list_of_packages):
         """
         Insert list of packages at once to the box
 
@@ -302,6 +303,21 @@ class Box:
 
         if percentage > 75 and percentage <= 90:
             return "Occupation is %s%% - Perfect, the box is a perfect fit." % percentage
+
+    def compare_box(self, box):
+        """
+        Allows you to compare the score your current box state with any other box
+
+        Args:
+            - box: any Box instance
+
+        Returns:
+            - bool: True if the current box is have higher score than the passed one, False otherwise
+        """
+
+        if self.fitting_percentage() >= box.fitting_percentage():
+            return True
+        return False
 
     def console_print(self):
         """
