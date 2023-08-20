@@ -33,7 +33,7 @@ After cloning and activating the virtual env
 
 .. code:: console
 
-    > cd alpha-augmented
+    cd alpha-augmented
 
 Then we need to install the requirements:
 
