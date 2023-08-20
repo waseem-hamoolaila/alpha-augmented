@@ -216,11 +216,11 @@
             $("#session-uuid-holder-id").text(data.uuid)
             let $box_container = $("#main-box-board-id")
             $box_container.empty()
-            for (row in data.box_matrix) {
+            for (row in data.box_grid) {
                 const rowElement = document.createElement('tr');
-                for (col in data.box_matrix[row]){
+                for (col in data.box_grid[row]){
                     const cellElement = document.createElement('td');
-                    cellElement.style.backgroundColor = data.box_matrix[row][col][1];
+                    cellElement.style.backgroundColor = data.box_grid[row][col][1];
                     cellElement.style.width = cellSize + 'px';
                     cellElement.style.height = cellSize + 'px';
                     rowElement.append(cellElement);

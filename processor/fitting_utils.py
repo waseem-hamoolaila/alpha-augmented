@@ -94,14 +94,14 @@ class Box:
         Args:
             - rows (int): number of rows in the box, 5 by default
             - cols (int): number of cols in the box, 5 by default
-            - instance (list): Optional, if you have any updated matrix, it will be used as it is passed.
+            - instance (list): Optional, if you have any updated grid, it will be used as it is passed.
             - rtl (bool): packing the packages right to left, left to right by default
             - horizontal (bool): horizontal point of view (deal with the box as shelves), vertical by default.
             - rotation (bool): Allow rotations for best fit.. the package will test fit in 4 positions: 45 - 90 - 145 - 180 degrees
         """
         self.rows = rows if not instance else len(instance)
         self.cols = cols if not instance else len(instance[0])
-        self.matrix = [[(0, "") for _ in range(cols)] for _ in range(rows)] if not instance else instance
+        self.grid = [[(0, "") for _ in range(cols)] for _ in range(rows)] if not instance else instance
         self.rtl = rtl
         self.horizontal = horizontal
         self.rotation = rotation
@@ -140,10 +140,10 @@ class Box:
 
                 try:
                     if self.rtl:
-                        box_cell = self.matrix[row_index - package_row][col_index - package_col]
+                        box_cell = self.grid[row_index - package_row][col_index - package_col]
                         package_cell = package._structure[package_row][package.cols - package_col - 1]
                     else:
-                        box_cell = self.matrix[row_index - package_row][col_index + package_col]
+                        box_cell = self.grid[row_index - package_row][col_index + package_col]
                         package_cell = package._structure[package_row][package_col]
 
                     if box_cell[0] == 1 and package_cell == 1:
@@ -156,7 +156,7 @@ class Box:
 
     def _clear_all_the_way_up(self, row_index, col_index):
         """
-        Check if on a specific cell that it is clear till the top of the matrix
+        Check if on a specific cell that it is clear till the top of the grid
 
         Args:
             - row_index (int): row index from where to check
@@ -167,7 +167,7 @@ class Box:
         """
 
         for row in range(row_index, -1, -1):
-            if self.matrix[row][col_index][0] == 1:
+            if self.grid[row][col_index][0] == 1:
                 return False
 
         return True
@@ -189,10 +189,10 @@ class Box:
                 try:
                     if self.rtl:
                         if package._structure[package_row][package.cols - package_col - 1] == 1:
-                            self.matrix[row_index - package_row][col_index - package_col] = (1, package.color)
+                            self.grid[row_index - package_row][col_index - package_col] = (1, package.color)
                     else:
                         if package._structure[package_row][package_col] == 1:
-                            self.matrix[row_index - package_row][col_index + package_col] = (1, package.color)
+                            self.grid[row_index - package_row][col_index + package_col] = (1, package.color)
 
                 except IndexError:
                     return False
@@ -270,7 +270,7 @@ class Box:
 
         for rows in range(self.rows):
             for cols in range(self.cols):
-                if self.matrix[rows][cols][0] == 1:
+                if self.grid[rows][cols][0] == 1:
                     number_of_occupied_cells += 1
 
         percentage = (number_of_occupied_cells / space) * 100
@@ -326,6 +326,6 @@ class Box:
         """
         String representation of the current box.
         """
-        for row in self.matrix:
+        for row in self.grid:
             row_str = " ".join(str(cell[0]) for cell in row)
             print(row_str)

@@ -28,7 +28,7 @@ class RenderBoxForm(forms.Form):
         session = Session.initial_new_box(rows=rows, cols=cols)
 
         ctx = {
-            "box_matrix": session.box_matrix,
+            "box_grid": session.box_grid,
             "uuid": session.uuid,
         }
 
