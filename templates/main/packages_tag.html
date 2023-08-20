@@ -20,18 +20,18 @@
 </style>
 <div class="row">
     {% for package in packages %}
-        <div class="col-md-2 col-sm-3 m-2">
-            <div class="d-flex flex-column align-items-center package-card"
-                 data-id="{{ package.identifier }}">
-                {% for row in package.structure %}
-                    <div class="d-flex justify-content-center">
-                        {% for col in row %}
-                            <div class="shape {% if col == 1 %}solid{% else %}empty{% endif %}"
-                                 {% if col == 1 %}style="background-color: {{ package.color }}"{% endif %}></div>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </div>
+        {% comment %} <div class="col-md-2 col-sm-3 m-2"> {% endcomment %}
+        <div class="d-flex flex-column align-items-center package-card"
+             data-id="{{ package.identifier }}">
+            {% for row in package.structure %}
+                <div class="d-flex justify-content-center">
+                    {% for col in row %}
+                        <div class="shape {% if col == 1 %}solid{% else %}empty{% endif %}"
+                             {% if col == 1 %}style="background-color: {{ package.color }}"{% endif %}></div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
+        {% comment %} </div> {% endcomment %}
     {% endfor %}
 </div>
