@@ -301,7 +301,7 @@ class Box:
         if percentage > 75 and percentage <= 90:
             return "Occupation is %s%% - Good, the box is a good fit." % percentage
 
-        if percentage > 75 and percentage <= 90:
+        if percentage > 90 and percentage <= 100:
             return "Occupation is %s%% - Perfect, the box is a perfect fit." % percentage
 
     def compare_box(self, box):
