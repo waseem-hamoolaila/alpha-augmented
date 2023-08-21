@@ -227,8 +227,7 @@ class Box:
                         )
 
                         if self.rotation:
-                            # package.reset()
-                            pass
+                            package.reset()
 
                         return True
 
